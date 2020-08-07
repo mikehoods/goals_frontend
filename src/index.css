@@ -84,7 +84,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-color: rgb(238, 146, 48);
   margin: 4rem 0;
   width: 45%;
@@ -93,10 +92,45 @@ body {
   border: 3px solid rgb(101, 101, 101);
 }
 
+.goals-container h1 {
+  margin: 0;
+}
+
 .goals-container .noGoals {
   text-align: center;
   padding: 1rem;
   color: whitesmoke;
+}
+
+.goal {
+  background: whitesmoke;
+  padding: .5rem;
+  border-radius: 12px;
+  margin: .4rem 0;
+  border: 1px solid black;
+}
+
+.goal:hover {
+  box-shadow: 3px 3px 5px black;
+}
+
+.goal h3, .goal h4 {
+  margin: 0;
+}
+
+.goal-createdAt {
+  color: rgb(133, 133, 133);
+}
+
+.goal ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.goal ul li {
+  margin: 0 2rem;
 }
 
 .footer {

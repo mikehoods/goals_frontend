@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import GoalForm from './GoalForm'
 
 class Home extends Component {
@@ -6,11 +7,44 @@ class Home extends Component {
         goals: [],
         completion: 0
     }
-    // componentDidMount(){
-    //     axios.get('localhost:3000')
-    // }
+    componentDidMount(){
+        axios.get('http://localhost:3000/goals')
+            .then(res => {
+                console.log(res.data)
+                this.setState({
+                    goals: res.data
+                })
+            })
+    }
     render(){
-        const yourGoals = this.state.goals
+        const formatDate = (date) => {
+            date = new Date(date);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return `${month}/${day}/${year}`
+        }
+        const goals = this.state.goals
+        const yourGoals = goals.length ? (
+            goals.map(goal => {
+                return (
+                    <div className="goal card" key={goal._id}>
+                        <div className="card-content">
+                            <h3>{goal.name}</h3>
+                            <h4 className="goal-createdAt">{formatDate(goal.createdAt)}</h4>
+                            <p>{goal.description}</p>
+                            <ul>
+                                <li>Category: {goal.category}</li>
+                                <li>Difficulty: {goal.difficulty}</li>
+                                <li>Importance: {goal.importance}</li>
+                            </ul>
+                        </div>
+                    </div>
+                )
+            })
+        ) : (
+            <h1 className="noGoals">I have no goals...</h1>
+        )
         return (
             <div className="home-container">
                 <div className="side-container">
@@ -37,7 +71,8 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="goals-container">
-                    <h1 className="noGoals">I have no goals...</h1>
+                    <h1>My Goals</h1>
+                    {yourGoals}
                 </div>
             </div>
             
