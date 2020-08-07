@@ -5,5 +5,157 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(to left top, rgb(141, 151, 159), rgb(220, 240, 230));
+  font-family: 'Quicksand', sans-serif;
 }
 
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  background: rgb(39, 171, 157);
+  color: whitesmoke;
+}
+
+.navbar .app-logo {
+  padding: 0 0 0 2rem;
+}
+
+.navlinks {
+  display: flex;
+  list-style-type: none;
+  align-items: center;
+  padding: 0;
+}
+
+.navlinks li a {
+  color: whitesmoke;
+  text-decoration: none;
+  padding: .2rem 1rem;
+  border-radius: 12px;
+  margin: 0 1rem 0 0;
+}
+
+.navlinks li a:hover {
+  cursor: pointer;
+  font-size: 1.2rem;
+  background: rgb(23, 143, 131);
+  font-weight: 500;
+}
+
+.home-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.side-container {
+  width: 35%;
+  margin: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.addGoal-container, .filterGoals-container, .progress-container {
+  background-color: rgb(238, 146, 48);
+  padding: .8rem;
+  border-radius: 14px;
+  border: 3px solid rgb(101, 101, 101);
+  color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addGoal-container h1 {
+  margin: 0;
+}
+
+.filterGoals-container {
+  margin: 2.5rem 0;
+  display: inline-flex;
+}
+
+.filter-label {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.goals-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(238, 146, 48);
+  margin: 4rem 0;
+  width: 45%;
+  padding: .8rem;
+  border-radius: 14px;
+  border: 3px solid rgb(101, 101, 101);
+}
+
+.goals-container .noGoals {
+  text-align: center;
+  padding: 1rem;
+  color: whitesmoke;
+}
+
+.footer {
+  background-color: rgb(39, 171, 157);
+  color: whitesmoke;
+  text-align: center;
+  padding: .4rem;
+}
+
+.btn {
+  background: rgb(39, 171, 157);
+  color: white;
+  padding: 0 0 .3rem 0;
+  border-radius: 10px;
+  width: 8vw;
+  font-size: 2rem;
+  font-weight: 700;
+  
+}
+
+input, textarea, select {
+  padding: .3rem;
+  border-radius: 12px;
+  font-family: 'Quicksand', sans-serif;
+  margin: .4rem 0;
+  border: 1px solid black;
+}
+
+input, textarea {
+  width: 100%;
+}
+
+textarea {
+  height: 12vh;
+  resize: none;
+}
+
+select {
+  width: 7vw;
+}
+
+.input-field label {
+  display: block;
+}
+
+.selectors {
+  display: flex;
+  margin: 1vh;
+}
+
+.selector-item {
+  margin: 0 1vw;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
+}
+
+.totalCompletion {
+  color: rgb(39, 171, 157);;
+}
