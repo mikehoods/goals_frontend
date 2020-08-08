@@ -5,14 +5,23 @@ import GoalForm from './GoalForm'
 class Home extends Component {
     state = {
         goals: [],
-        completion: 0
+        completion: 0,
     }
     componentDidMount(){
         axios.get('http://localhost:3000/goals')
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 this.setState({
                     goals: res.data
+                })
+            })
+    }
+    handleDelete = (id) => {
+        console.log(id)
+        axios.delete(`http://localhost:3000/goals/${id}/`)
+            .then(()=> {
+                this.setState({
+                    goals: this.state.goals.filter(g => g._id !== id)
                 })
             })
     }
@@ -23,6 +32,11 @@ class Home extends Component {
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
             return `${month}/${day}/${year}`
+        }
+        const howImportant = (num) => {
+            const ImportanceArr = ["Low", "Medium", "High"]
+            let importance = ImportanceArr[num -1]
+            return importance
         }
         const goals = this.state.goals
         const yourGoals = goals.length ? (
@@ -36,8 +50,13 @@ class Home extends Component {
                             <ul>
                                 <li>Category: {goal.category}</li>
                                 <li>Difficulty: {goal.difficulty}</li>
-                                <li>Importance: {goal.importance}</li>
+                                <li>Importance: {howImportant(goal.importance)}</li>
                             </ul>
+                            <div className="goal-icons">
+                                <i className="material-icons">done</i>
+                                <i className="material-icons">edit</i>
+                                <i className="material-icons" onClick={()=> {this.handleDelete(goal._id)}}>delete_forever</i>
+                            </div>
                         </div>
                     </div>
                 )

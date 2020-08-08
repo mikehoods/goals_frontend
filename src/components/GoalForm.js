@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 
 export class CreateGoal extends Component {
     state = {
         name: '',
         description: '',
-        category: '',
-        difficulty: 0,
-        importance: 0,
+        category: 'Life',
+        difficulty: 1,
+        importance: 1,
         progress: 0,
         complete: false,
         finishBy: null,
@@ -17,10 +18,18 @@ export class CreateGoal extends Component {
             [e.target.id]: e.target.value
         })
     }
+    handleChangeNum = (e) => {
+        this.setState({
+            [e.target.id]: parseInt(e.target.value)
+        })
+    }
     handleSubmit = (e) => {
-        e.preventDefault();
-        // this.props.CreateGoal(this.state)
-        console.log(this.state)
+        // e.preventDefault();
+        const goal = [this.state]
+        axios.post(`http://localhost:3000/goals`, {
+            goal
+        })
+        console.log(goal)
     }
     render() {
         return (
@@ -28,7 +37,7 @@ export class CreateGoal extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="input-field">
                         <label htmlFor="name">Name</label>
-                        <input type="text" id="name" onChange={this.handleChange}/>
+                        <input type="text" id="name" autoFocus onChange={this.handleChange}/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="description">Description</label>
@@ -37,7 +46,7 @@ export class CreateGoal extends Component {
                     <div className="selectors">
                     <div className="input-field selector-item">
                         <label htmlFor="category">Category</label>
-                        <select id="category" onChange={this.handleChange}>
+                        <select id="category" defaultValue="Life" onChange={this.handleChange}>
                             <option value="Life">Life</option>
                             <option value="Love">Love</option>
                             <option value="Happiness">Happiness</option>
@@ -48,7 +57,7 @@ export class CreateGoal extends Component {
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="difficulty">Difficulty</label>
-                        <select id="difficulty" onChange={this.handleChange}>
+                        <select id="difficulty" defaultValue="1" onChange={this.handleChangeNum}>
                             <option value="1">Painless</option>
                             <option value="2">Meh</option>
                             <option value="3">Tough</option>
@@ -57,7 +66,7 @@ export class CreateGoal extends Component {
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="importance">Importance</label>
-                        <select id="importance" onChange={this.handleChange}>
+                        <select id="importance" defaultValue="1" onChange={this.handleChange}>
                             <option value="1">Low</option>
                             <option value="2">Medium</option>
                             <option value="3">High</option>
