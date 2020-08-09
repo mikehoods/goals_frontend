@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-export class CreateGoal extends Component {
+export class EditGoal extends Component {
     state = {
-        name: '',
-        description: '',
-        category: 'Life',
-        difficulty: 1,
-        importance: 1,
-        progress: 0,
-        complete: false,
-        finishBy: null,
-        notes: ''
+        name: this.props.goal.name,
+        description: this.props.goal.description,
+        category: this.props.goal.category,
+        difficulty: this.props.goal.difficulty,
+        importance: this.props.goal.importance,
+        progress: this.props.goal.progress,
+        complete: this.props.goal.complete,
+        finishBy: this.props.goal.finishBy,
+        notes: this.props.goal.notes,
+        _id: this.props.goal._id
     }
     handleChange = (e) => {
         this.setState({
@@ -25,28 +26,28 @@ export class CreateGoal extends Component {
     }
     handleSubmit = (e) => {
         // e.preventDefault();
-        const goal = [this.state]
-        axios.post(`http://localhost:3000/goals`, {
-            goal
-        })
-        console.log(goal)
+        axios.put(`http://localhost:3000/goals/${this.state._id}/`,
+            this.state
+        )
     }
     render() {
+        const goal = this.state
         return (
             <div className="addGoal_form-container">
+                <h1>Edit this goal</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="input-field">
                         <label htmlFor="name">Name</label>
-                        <input type="text" id="name" autoFocus onChange={this.handleChange}/>
+                        <input type="text" id="name" value={goal.name} autoFocus onChange={this.handleChange}/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="description">Description</label>
-                        <textarea id="description" onChange={this.handleChange}/>
+                        <textarea id="description" value={goal.description} onChange={this.handleChange}/>
                     </div>
                     <div className="selectors">
                     <div className="input-field selector-item">
                         <label htmlFor="category">Category</label>
-                        <select id="category" defaultValue="Life" onChange={this.handleChange}>
+                        <select id="category" value={goal.category} onChange={this.handleChange}>
                             <option value="Life">Life</option>
                             <option value="Love">Love</option>
                             <option value="Happiness">Happiness</option>
@@ -57,7 +58,7 @@ export class CreateGoal extends Component {
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="difficulty">Difficulty</label>
-                        <select id="difficulty" defaultValue="1" onChange={this.handleChangeNum}>
+                        <select id="difficulty" value={goal.difficulty} onChange={this.handleChangeNum}>
                             <option value="1">Painless</option>
                             <option value="2">Meh</option>
                             <option value="3">Tough</option>
@@ -66,7 +67,7 @@ export class CreateGoal extends Component {
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="importance">Importance</label>
-                        <select id="importance" defaultValue="1" onChange={this.handleChange}>
+                        <select id="importance" value={goal.importance} onChange={this.handleChange}>
                             <option value="1">Low</option>
                             <option value="2">Medium</option>
                             <option value="3">High</option>
@@ -74,7 +75,7 @@ export class CreateGoal extends Component {
                     </div>
                     </div>
                     <div className="input-field submit">
-                        <input className="btn" type="submit" id="addGoal" value="+" onSubmit={this.handleSubmit}/>
+                        <input className="btn" type="submit" id="addGoal" value="Edit" onSubmit={this.handleSubmit}/>
                     </div>
                 </form>
             </div>
@@ -82,4 +83,4 @@ export class CreateGoal extends Component {
     }
 }
 
-export default CreateGoal
+export default EditGoal

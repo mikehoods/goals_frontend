@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import GoalForm from './GoalForm'
+import CreateGoal from './CreateGoal'
+import EditGoal from './EditGoal'
 
 class Home extends Component {
     state = {
         goals: [],
         completion: 0,
-        filterBy: ""
+        filterBy: "",
+        formToggle: <CreateGoal/>
     }
     componentDidMount(){
         axios.get('http://localhost:3000/goals')
@@ -30,6 +32,11 @@ class Home extends Component {
         console.log(e.target.value)
         this.setState({
             filterBy: e.target.value,
+        })
+    }
+    handleEdit = (goal) => {
+        this.setState({
+            formToggle: <EditGoal goal={goal}/>
         })
     }
     render(){
@@ -61,7 +68,7 @@ class Home extends Component {
                             </ul>
                             <div className="goal-icons">
                                 <i className="material-icons">done</i>
-                                <i className="material-icons">edit</i>
+                                <i className="material-icons" onClick={()=> {this.handleEdit(goal)}}>edit</i>
                                 <i className="material-icons" onClick={()=> {this.handleDelete(goal._id)}}>delete_forever</i>
                             </div>
                         </div>
@@ -75,8 +82,8 @@ class Home extends Component {
             <div className="home-container">
                 <div className="side-container">
                     <div className="addGoal-container">
-                        <h1>Add a new goal</h1>
-                        <GoalForm/>
+                        {/* <h1>Add a new goal</h1> */}
+                        {this.state.formToggle}
                     </div>
                     <div className="filterGoals-container">
                         <form>
