@@ -6,6 +6,7 @@ class Home extends Component {
     state = {
         goals: [],
         completion: 0,
+        filterBy: ""
     }
     componentDidMount(){
         axios.get('http://localhost:3000/goals')
@@ -25,6 +26,12 @@ class Home extends Component {
                 })
             })
     }
+    handleFilter = (e) => {
+        console.log(e.target.value)
+        this.setState({
+            filterBy: e.target.value,
+        })
+    }
     render(){
         const formatDate = (date) => {
             date = new Date(date);
@@ -40,7 +47,7 @@ class Home extends Component {
         }
         const goals = this.state.goals
         const yourGoals = goals.length ? (
-            goals.map(goal => {
+            goals.filter(goal => goal.category.includes(this.state.filterBy)).map(goal => {
                 return (
                     <div className="goal card" key={goal._id}>
                         <div className="card-content">
@@ -73,15 +80,15 @@ class Home extends Component {
                     </div>
                     <div className="filterGoals-container">
                         <form>
-                            <label className="filter-label">View your goals in: </label>
-                            <select>
-                                <option>Everything</option>
-                                <option>Life</option>
-                                <option>Love</option>
-                                <option>Happiness</option>
-                                <option>Health</option>
-                                <option>Work</option>
-                                <option>Other</option>
+                            <label className="filter-label" htmlFor="filterBy">View your goals in: </label>
+                            <select id="filterBy" onChange={this.handleFilter}>
+                                <option value="">Everything</option>
+                                <option value="Life">Life</option>
+                                <option value="Love">Love</option>
+                                <option value="Happiness">Happiness</option>
+                                <option value="Health">Health</option>
+                                <option value="Work">Work</option>
+                                <option value="Other">Other</option>
                             </select>
                         </form>
                     </div>
