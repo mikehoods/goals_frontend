@@ -14,6 +14,7 @@ body {
   justify-content: space-between;
   background: rgb(39, 171, 157);
   color: whitesmoke;
+  text-shadow: 1px 1px black;
 }
 
 .navbar .app-logo {
@@ -64,6 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-shadow: 1px 1px black;
 }
 
 .addGoal-container h1 {
@@ -87,7 +89,7 @@ body {
   background-color: rgb(238, 146, 48);
   margin: 4rem 0;
   width: 45%;
-  padding: 1rem;
+  padding: .8rem;
   border-radius: 14px;
   border: 3px solid rgb(101, 101, 101);
 }
@@ -102,9 +104,12 @@ body {
   color: whitesmoke;
 }
 
+.myGoals-h1 {
+  text-shadow: 1px 1px whitesmoke;
+}
+
 .goal {
   background: whitesmoke;
-  padding: .5rem;
   border-radius: 12px;
   margin: .4rem 0;
   border: 1px solid black;
@@ -121,17 +126,28 @@ body {
 
 .goal-createdAt {
   color: rgb(133, 133, 133);
+  padding: 0 .5rem;
 }
 
-.goal ul {
-  list-style-type: none;
-  padding: 0;
+.goal-footer {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  background-color: rgb(39, 171, 157);
+  border-radius: 0 0 12px 12px;
+  border-top: 1px solid black;
+  color: whitesmoke;
+  font-weight: 500;
 }
 
-.goal ul li {
-  margin: 0 2rem;
+.goal-footer-item {
+  padding: .1rem;
+  text-shadow: .4px .4px black;
+}
+
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem .5rem 0 .5rem;
 }
 
 .goal-icons {
@@ -149,6 +165,7 @@ body {
   color: whitesmoke;
   text-align: center;
   padding: .4rem;
+  text-shadow: 1px 1px black;
 }
 
 .btn {
@@ -159,10 +176,11 @@ body {
   width: 8vw;
   font-size: 2rem;
   font-weight: 700;
+  text-shadow: 1px 1px black;
   
 }
 
-input, textarea, select {
+input, select {
   padding: .3rem;
   border-radius: 12px;
   font-family: 'Quicksand', sans-serif;
@@ -170,13 +188,8 @@ input, textarea, select {
   border: 1px solid black;
 }
 
-input, textarea {
+input {
   width: 100%;
-}
-
-textarea {
-  height: 12vh;
-  resize: none;
 }
 
 select {
@@ -185,6 +198,9 @@ select {
 
 .input-field label {
   display: block;
+  font-weight: 500;
+  color: black;
+  text-shadow: 1px 1px whitesmoke;
 }
 
 .selectors {

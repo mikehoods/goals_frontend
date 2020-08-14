@@ -4,23 +4,16 @@ import axios from 'axios'
 export class CreateGoal extends Component {
     state = {
         name: '',
-        description: '',
         category: 'Life',
-        difficulty: 1,
-        importance: 1,
+        difficulty: 'Painless',
+        importance: 'Low',
         progress: 0,
         complete: false,
-        finishBy: null,
-        notes: ''
+        steps: []
     }
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
-        })
-    }
-    handleChangeNum = (e) => {
-        this.setState({
-            [e.target.id]: parseInt(e.target.value)
         })
     }
     handleSubmit = (e) => {
@@ -41,8 +34,10 @@ export class CreateGoal extends Component {
                         <input type="text" id="name" autoFocus onChange={this.handleChange}/>
                     </div>
                     <div className="input-field">
-                        <label htmlFor="description">Description</label>
-                        <textarea id="description" onChange={this.handleChange}/>
+                        <label htmlFor="steps">Steps</label>
+                        <input id="steps" onChange={this.handleChange}/>
+                        <button>+</button>
+                        <button>-</button>
                     </div>
                     <div className="selectors">
                     <div className="input-field selector-item">
@@ -58,19 +53,19 @@ export class CreateGoal extends Component {
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="difficulty">Difficulty</label>
-                        <select id="difficulty" defaultValue="1" onChange={this.handleChangeNum}>
-                            <option value="1">Painless</option>
-                            <option value="2">Meh</option>
-                            <option value="3">Tough</option>
-                            <option value='4'>Woah!</option>
+                        <select id="difficulty" defaultValue="1" onChange={this.handleChange}>
+                            <option value="Painless">Painless</option>
+                            <option value="Meh">Meh</option>
+                            <option value="Tough">Tough</option>
+                            <option value='Woah!'>Woah!</option>
                         </select>
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="importance">Importance</label>
                         <select id="importance" defaultValue="1" onChange={this.handleChange}>
-                            <option value="1">Low</option>
-                            <option value="2">Medium</option>
-                            <option value="3">High</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
                         </select>
                     </div>
                     </div>

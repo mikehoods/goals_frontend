@@ -24,7 +24,8 @@ class Home extends Component {
         axios.delete(`http://localhost:3000/goals/${id}/`)
             .then(()=> {
                 this.setState({
-                    goals: this.state.goals.filter(g => g._id !== id)
+                    goals: this.state.goals.filter(g => g._id !== id),
+                    formToggle: <CreateGoal/>
                 })
             })
     }
@@ -47,29 +48,32 @@ class Home extends Component {
             const year = date.getFullYear();
             return `${month}/${day}/${year}`
         }
-        const howImportant = (num) => {
-            const ImportanceArr = ["Low", "Medium", "High"]
-            let importance = ImportanceArr[num -1]
-            return importance
-        }
         const goals = this.state.goals
         const yourGoals = goals.length ? (
             goals.filter(goal => goal.category.includes(this.state.filterBy)).map(goal => {
                 return (
                     <div className="goal card" key={goal._id}>
                         <div className="card-content">
-                            <h3>{goal.name}</h3>
+                            <div className="goal-header">
+                                <h3>{goal.name}</h3>
+                                <div className="goal-icons">
+                                    <i className="material-icons">done</i>
+                                    <i className="material-icons" onClick={()=> {this.handleEdit(goal)}}>edit</i>
+                                    <i className="material-icons" onClick={()=> {this.handleDelete(goal._id)}}>delete_forever</i>
+                                </div>
+                            </div>
                             <h4 className="goal-createdAt">{formatDate(goal.createdAt)}</h4>
-                            <p>{goal.description}</p>
-                            <ul>
-                                <li>Category: {goal.category}</li>
-                                <li>Difficulty: {goal.difficulty}</li>
-                                <li>Importance: {howImportant(goal.importance)}</li>
-                            </ul>
-                            <div className="goal-icons">
-                                <i className="material-icons">done</i>
-                                <i className="material-icons" onClick={()=> {this.handleEdit(goal)}}>edit</i>
-                                <i className="material-icons" onClick={()=> {this.handleDelete(goal._id)}}>delete_forever</i>
+                            <ol>
+                                {goal.steps.map((step, index) => {
+                                    return(
+                                        <li key={index}>{step}</li>
+                                    )
+                                })}
+                            </ol>
+                            <div className="goal-footer">
+                                <div className="goal-footer-item">Category: {goal.category}</div>
+                                <div className="goal-footer-item">Difficulty: {goal.difficulty}</div>
+                                <div className="goal-footer-item">Importance: {goal.importance}</div>
                             </div>
                         </div>
                     </div>
@@ -82,7 +86,6 @@ class Home extends Component {
             <div className="home-container">
                 <div className="side-container">
                     <div className="addGoal-container">
-                        {/* <h1>Add a new goal</h1> */}
                         {this.state.formToggle}
                     </div>
                     <div className="filterGoals-container">
@@ -104,7 +107,7 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="goals-container">
-                    <h1>My Goals</h1>
+                    <h1 className="myGoals-h1">My Goals</h1>
                     {yourGoals}
                 </div>
             </div>

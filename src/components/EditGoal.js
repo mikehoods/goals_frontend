@@ -4,24 +4,17 @@ import axios from 'axios'
 export class EditGoal extends Component {
     state = {
         name: this.props.goal.name,
-        description: this.props.goal.description,
         category: this.props.goal.category,
         difficulty: this.props.goal.difficulty,
         importance: this.props.goal.importance,
         progress: this.props.goal.progress,
         complete: this.props.goal.complete,
-        finishBy: this.props.goal.finishBy,
-        notes: this.props.goal.notes,
+        steps: this.props.goal.steps,
         _id: this.props.goal._id
     }
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
-        })
-    }
-    handleChangeNum = (e) => {
-        this.setState({
-            [e.target.id]: parseInt(e.target.value)
         })
     }
     handleSubmit = (e) => {
@@ -40,10 +33,16 @@ export class EditGoal extends Component {
                         <label htmlFor="name">Name</label>
                         <input type="text" id="name" value={goal.name} autoFocus onChange={this.handleChange}/>
                     </div>
-                    <div className="input-field">
-                        <label htmlFor="description">Description</label>
-                        <textarea id="description" value={goal.description} onChange={this.handleChange}/>
-                    </div>
+                        {goal.steps.map((step, index) => {
+                            return(
+                                <div key={index} className="input-field">
+                                    <label htmlFor={goal.steps[index]}>Step {index+1}</label>
+                                    <input id={goal.steps[index]} value={step} onChange={this.handleChange}/>
+                                    <button>+</button>
+                                    <button>-</button>
+                                </div>
+                            )
+                        })}
                     <div className="selectors">
                     <div className="input-field selector-item">
                         <label htmlFor="category">Category</label>
@@ -58,19 +57,19 @@ export class EditGoal extends Component {
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="difficulty">Difficulty</label>
-                        <select id="difficulty" value={goal.difficulty} onChange={this.handleChangeNum}>
-                            <option value="1">Painless</option>
-                            <option value="2">Meh</option>
-                            <option value="3">Tough</option>
-                            <option value='4'>Woah!</option>
+                        <select id="difficulty" value={goal.difficulty} onChange={this.handleChange}>
+                            <option value="Painless">Painless</option>
+                            <option value="Meh">Meh</option>
+                            <option value="Tough">Tough</option>
+                            <option value='Woah!'>Woah!</option>
                         </select>
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="importance">Importance</label>
                         <select id="importance" value={goal.importance} onChange={this.handleChange}>
-                            <option value="1">Low</option>
-                            <option value="2">Medium</option>
-                            <option value="3">High</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
                         </select>
                     </div>
                     </div>
