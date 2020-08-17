@@ -25,15 +25,38 @@ export class CreateGoal extends Component {
         })
         console.log(goal)
     }
+    handleStepChange = (e, index) => {
+        const steps = this.state.steps
+        steps[index] = e.target.value
+        console.log(steps)
+        console.log(e.target.value)
+        console.log(index)
+        console.log(steps[index])
+        this.setState({
+            steps
+        })
+    }
     addStep = (e) => {
         e.preventDefault();
+        this.state.steps.push(this.state.currentStep)
         this.setState([
             ...this.state.steps, {
                 steps: this.state.currentStep
             }
         ])
+        document.getElementById('currentStep').value = ''
     }
     render() {
+        const stepList = this.state.steps.length ?
+            this.state.steps.map((step, index) => {
+                return (
+                    <div key={index} className="input-field">
+                        <label htmlFor="steps">Step {index+1}</label>
+                        <input id="steps" defaultValue={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
+                    </div>
+                )
+            })
+        : ""  
         return (
             <div className="addGoal_form-container">
                 <h1>Add a new goal</h1>
@@ -42,8 +65,9 @@ export class CreateGoal extends Component {
                         <label htmlFor="name">Name</label>
                         <input type="text" id="name" autoFocus onChange={this.handleChange}/>
                     </div>
+                    {stepList}
                     <div className="input-field">
-                        <label htmlFor="currentStep">Step</label>
+                        <label htmlFor="currentStep">New Step</label>
                         <input id="currentStep" onChange={this.handleChange}/>
                         <button id="steps" onClick={this.addStep}>+</button>
                         <button>-</button>
