@@ -49,7 +49,7 @@ class Home extends Component {
             return `${month}/${day}/${year}`
         }
         const goals = this.state.goals
-        const yourGoals = goals.length ? (
+        const goalsList = goals.length ? (
             goals.filter(goal => goal.category.includes(this.state.filterBy)).map(goal => {
                 return (
                     <div className="goal card" key={goal._id}>
@@ -108,7 +108,7 @@ class Home extends Component {
                 </div>
                 <div className="goals-container">
                     <h1 className="myGoals-h1">My Goals</h1>
-                    {yourGoals}
+                    {goalsList}
                 </div>
             </div>
             

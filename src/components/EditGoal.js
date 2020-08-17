@@ -17,6 +17,17 @@ export class EditGoal extends Component {
             [e.target.id]: e.target.value
         })
     }
+    handleStepChange = (e, index) => {
+        const steps = this.state.steps
+        steps[index] = e.target.value
+        console.log(steps)
+        console.log(e.target.value)
+        console.log(index)
+        console.log(steps[index])
+        this.setState({
+            steps
+        })
+    }
     handleSubmit = (e) => {
         // e.preventDefault();
         axios.put(`http://localhost:3000/goals/${this.state._id}/`,
@@ -36,8 +47,8 @@ export class EditGoal extends Component {
                         {goal.steps.map((step, index) => {
                             return(
                                 <div key={index} className="input-field">
-                                    <label htmlFor={goal.steps[index]}>Step {index+1}</label>
-                                    <input id={goal.steps[index]} value={step} onChange={this.handleChange}/>
+                                    <label htmlFor="steps">Step {index+1}</label>
+                                    <input id="steps" defaultValue={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
                                     <button>+</button>
                                     <button>-</button>
                                 </div>
