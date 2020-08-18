@@ -44,20 +44,33 @@ export class CreateGoal extends Component {
         // e.preventDefault();
         const steps = this.state.steps
         this.state.steps.splice(index, 1)
-        console.log(steps)
         this.setState({
             steps
         })
 
     }
     render() {
-        const stepList = this.state.steps.length ?
+        const stepsLength = this.state.steps.length
+        const moveDown = <i className="material-icons">arrow_drop_down</i>
+        const moveUp = <i className="material-icons">arrow_drop_up</i>
+        const stepList = stepsLength ?
             this.state.steps.map((step, index) => {
                 return (
                     <div key={index} className="input-field">
                         <label htmlFor="steps">Step {index+1}</label>
                         <input id="steps" value={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
                         <span id="deleteStep" onClick={(e) => {this.deleteStep(e, index)}}>x</span>
+                        {index > 0 && index !== stepsLength -1 ?
+                            <div>
+                                {moveUp}
+                                {moveDown}
+                            </div>
+                            : 
+                            index > 0 && index === stepsLength - 1 ?
+                                    moveUp
+                                :
+                                    moveDown
+                        }  
                     </div>
                 )
             })

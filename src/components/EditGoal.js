@@ -36,10 +36,7 @@ export class EditGoal extends Component {
     deleteStep = (e, index) => {
         // e.preventDefault();
         const steps = this.state.steps
-        console.log(steps)
-        console.log(index)
         steps.splice(index, 1)
-        console.log(steps)
         this.setState({
             steps
         })
@@ -70,15 +67,6 @@ export class EditGoal extends Component {
                         <label htmlFor="name">Goal Name</label>
                         <input type="text" id="name" value={goal.name} autoFocus onChange={this.handleChange}/>
                     </div>
-                        {/* {goal.steps.map((step, index) => {
-                            return(
-                                <div key={index} className="input-field">
-                                    <label htmlFor="steps">Step {index+1}</label>
-                                    <input id="steps" defaultValue={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
-                                    <span id="deleteStep" onClick={(e) => {this.deleteStep(e, index)}}>x</span>
-                                </div>
-                            )
-                        })} */}
                         {stepList}
                     <div className="input-field">
                         <label htmlFor="currentStep">New Step</label>
