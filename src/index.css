@@ -68,6 +68,10 @@ body {
   text-shadow: 1px 1px black;
 }
 
+.addGoal_form-container {
+  width: 85%;
+}
+
 .addGoal-container h1 {
   margin: 0;
 }
@@ -197,7 +201,7 @@ input {
 }
 
 #currentStep, #steps {
-  width: 82%;
+  width: 75%;
   margin: 0 .4rem 0 0;
 }
 
@@ -214,6 +218,10 @@ input {
   border-radius: 8px;
   font-weight: 700;
   font-size: 1rem;
+}
+
+.material-icons:hover {
+  cursor: pointer;
 }
 
 select {
