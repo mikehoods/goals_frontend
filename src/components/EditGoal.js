@@ -20,40 +20,71 @@ export class EditGoal extends Component {
     handleStepChange = (e, index) => {
         const steps = this.state.steps
         steps[index] = e.target.value
+        this.setState({
+            steps
+        })
+    }
+    addStep = (e) => {
+        e.preventDefault();
+        this.state.steps.push(this.state.currentStep)
+        this.setState([
+            this.state.steps
+        ])
+        document.getElementById('currentStep').value = ''
+        this.state.currentStep = ''
+    }
+    deleteStep = (e, index) => {
+        // e.preventDefault();
+        const steps = this.state.steps
         console.log(steps)
-        console.log(e.target.value)
         console.log(index)
-        console.log(steps[index])
+        steps.splice(index, 1)
+        console.log(steps)
         this.setState({
             steps
         })
     }
     handleSubmit = (e) => {
-        // e.preventDefault();
         axios.put(`http://localhost:3000/goals/${this.state._id}/`,
             this.state
         )
     }
     render() {
         const goal = this.state
+        const stepList = this.state.steps.length ?
+            this.state.steps.map((step, index) => {
+                return (
+                    <div key={index} className="input-field">
+                        <label htmlFor="steps">Step {index+1}</label>
+                        <input id="steps" value={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
+                        <span id="deleteStep" onClick={(e) => {this.deleteStep(e, index)}}>x</span>
+                    </div>
+                )
+            })
+        : ""  
         return (
             <div className="addGoal_form-container">
                 <h1>Edit this goal</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="input-field">
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="name">Goal Name</label>
                         <input type="text" id="name" value={goal.name} autoFocus onChange={this.handleChange}/>
                     </div>
-                        {goal.steps.map((step, index) => {
+                        {/* {goal.steps.map((step, index) => {
                             return(
                                 <div key={index} className="input-field">
                                     <label htmlFor="steps">Step {index+1}</label>
                                     <input id="steps" defaultValue={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
-                                    <button>+</button>
-                                    <button>-</button>
+                                    <span id="deleteStep" onClick={(e) => {this.deleteStep(e, index)}}>x</span>
                                 </div>
                             )
-                        })}
+                        })} */}
+                        {stepList}
+                    <div className="input-field">
+                        <label htmlFor="currentStep">New Step</label>
+                        <input id="currentStep" onChange={this.handleChange}/>
+                        <button id="addStep" onClick={this.addStep}>+</button>
+                    </div>
                     <div className="selectors">
                     <div className="input-field selector-item">
                         <label htmlFor="category">Category</label>

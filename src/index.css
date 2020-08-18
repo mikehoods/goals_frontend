@@ -180,6 +180,10 @@ body {
   
 }
 
+.btn:hover, #deleteStep:hover, #addStep:hover {
+  cursor: pointer;
+}
+
 input, select {
   padding: .3rem;
   border-radius: 12px;
@@ -190,6 +194,26 @@ input, select {
 
 input {
   width: 100%;
+}
+
+#currentStep, #steps {
+  width: 88%;
+  margin: 0 .4rem 0 0;
+}
+
+#deleteStep {
+  color: black;
+  text-shadow: none;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+#addStep {
+  background: rgb(39, 171, 157);
+  color: whitesmoke;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 select {

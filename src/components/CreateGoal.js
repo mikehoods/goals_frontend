@@ -23,15 +23,10 @@ export class CreateGoal extends Component {
         axios.post(`http://localhost:3000/goals`, {
             goal
         })
-        console.log(goal)
     }
     handleStepChange = (e, index) => {
         const steps = this.state.steps
         steps[index] = e.target.value
-        console.log(steps)
-        console.log(e.target.value)
-        console.log(index)
-        console.log(steps[index])
         this.setState({
             steps
         })
@@ -40,11 +35,20 @@ export class CreateGoal extends Component {
         e.preventDefault();
         this.state.steps.push(this.state.currentStep)
         this.setState([
-            ...this.state.steps, {
-                steps: this.state.currentStep
-            }
+            this.state.steps
         ])
         document.getElementById('currentStep').value = ''
+        this.state.currentStep = ''
+    }
+    deleteStep = (e, index) => {
+        // e.preventDefault();
+        const steps = this.state.steps
+        this.state.steps.splice(index, 1)
+        console.log(steps)
+        this.setState({
+            steps
+        })
+
     }
     render() {
         const stepList = this.state.steps.length ?
@@ -52,7 +56,8 @@ export class CreateGoal extends Component {
                 return (
                     <div key={index} className="input-field">
                         <label htmlFor="steps">Step {index+1}</label>
-                        <input id="steps" defaultValue={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
+                        <input id="steps" value={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
+                        <span id="deleteStep" onClick={(e) => {this.deleteStep(e, index)}}>x</span>
                     </div>
                 )
             })
@@ -62,15 +67,14 @@ export class CreateGoal extends Component {
                 <h1>Add a new goal</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="input-field">
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="name">Goal Name</label>
                         <input type="text" id="name" autoFocus onChange={this.handleChange}/>
                     </div>
                     {stepList}
                     <div className="input-field">
                         <label htmlFor="currentStep">New Step</label>
                         <input id="currentStep" onChange={this.handleChange}/>
-                        <button id="steps" onClick={this.addStep}>+</button>
-                        <button>-</button>
+                        <button id="addStep" onClick={this.addStep}>+</button>
                     </div>
                     <div className="selectors">
                     <div className="input-field selector-item">
