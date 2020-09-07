@@ -21,10 +21,12 @@ class Register extends Component {
             newUser
         )
         const loginResponse = await axios.post('http://localhost:3000/users/login', 
-            {username, password}
+            newUser
         )
         await localStorage.setItem("auth-token", JSON.stringify(loginResponse.data.token))
-        console.log(loginResponse)
+        this.setState({
+            token: localStorage.data.token
+        })
     }
     render(){
         return(
