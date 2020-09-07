@@ -58,7 +58,7 @@ export class EditGoal extends Component {
         })
     }
     handleSubmit = (e) => {
-        axios.put(`http://localhost:3000/goals/${this.state._id}/`,
+        axios.put(`https://localhost:3000/goals/${this.state._id}/`,
             this.state
         )
     }

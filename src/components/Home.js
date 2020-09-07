@@ -7,7 +7,8 @@ class Home extends Component {
     state = {
         goals: [],
         filterBy: "",
-        formToggle: <CreateGoal/>
+        formToggle: <CreateGoal/>,
+        completeGoals: ''
     }
     componentDidMount(){
         axios.get('http://localhost:3000/goals')
@@ -37,7 +38,7 @@ class Home extends Component {
         goal.complete = !goal.complete
         goals[index] = goal
         console.log(goal)
-        axios.put(`http://localhost:3000/goals/${goals[index]._id}/`, 
+        axios.put(`https://localhost:3000/goals/${goals[index]._id}/`, 
             goal
             )
             .then(()=> {
@@ -62,6 +63,7 @@ class Home extends Component {
         const goals = this.state.goals
         const completedGoals = goals.filter(g => g.complete === true)
         const completionPercentage = ((completedGoals.length / goals.length) * 100).toFixed(0)
+        const isCompleteFilter = ''
         const goalsList = goals.length ? (
             goals.filter(goal => goal.category.includes(this.state.filterBy)).map((goal, index) => {
                 return (
@@ -121,6 +123,11 @@ class Home extends Component {
                 </div>
                 <div className="goals-container">
                     <h1 className="myGoals-h1">My Goals</h1>
+                    <div className="goals-buttons">
+                        <button>Pending</button>
+                        <button>Complete</button>
+                        <button>All</button>
+                    </div>
                     {goalsList}
                 </div>
             </div>
