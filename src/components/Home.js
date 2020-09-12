@@ -37,8 +37,7 @@ class Home extends Component {
         console.log(goal)
         goal.complete = !goal.complete
         goals[index] = goal
-        console.log(goal)
-        axios.put(`https://localhost:3000/goals/${goals[index]._id}/`, 
+        axios.put(`http://localhost:3000/goals/${goals[index]._id}/`, 
             goal
             )
             .then(()=> {
@@ -63,7 +62,7 @@ class Home extends Component {
         const goals = this.state.goals
         const completedGoals = goals.filter(g => g.complete === true)
         const completionPercentage = ((completedGoals.length / goals.length) * 100).toFixed(0)
-        const isCompleteFilter = ''
+        // const isCompleteFilter = ''
         const goalsList = goals.length ? (
             goals.filter(goal => goal.category.includes(this.state.filterBy)).map((goal, index) => {
                 return (
