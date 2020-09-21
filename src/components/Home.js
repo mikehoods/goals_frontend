@@ -14,9 +14,9 @@ class Home extends Component {
     static contextType = UserContext
 
     componentDidMount(){
-        const user = this.context
+        // const user = this.context
 
-        axios.get('http://localhost:4000/goals')
+        axios.get('https://react-goal-tracker.herokuapp.com/goals')
             .then(res => {
                 this.setState({
                     goals: res.data
@@ -24,7 +24,7 @@ class Home extends Component {
             })
     }
     handleDelete = (id) => {
-        axios.delete(`http://localhost:4000/goals/${id}/`)
+        axios.delete(`https://react-goal-tracker.herokuapp.com/goals/${id}/`)
             .then(()=> {
                 this.setState({
                     goals: this.state.goals.filter(g => g._id !== id),
@@ -42,7 +42,7 @@ class Home extends Component {
         console.log(goal)
         goal.complete = !goal.complete
         goals[index] = goal
-        axios.put(`http://localhost:4000/goals/${goals[index]._id}/`, 
+        axios.put(`https://react-goal-tracker.herokuapp.com/goals/${goals[index]._id}/`, 
             goal
             )
             .then(()=> {

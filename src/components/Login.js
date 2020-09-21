@@ -27,7 +27,8 @@ class Login extends Component {
         e.preventDefault()
         const {username, password} = this.state
         const loginUser = {username, password}
-        const {userData, setUserData} = this.context
+        // const {userData, setUserData} = this.context
+        const { setUserData } = this.context
         const newUser = { username: username, token: null};
         setUserData(newUser)
         axios.post('http://localhost:4000/users/login', loginUser)
@@ -55,7 +56,7 @@ class Login extends Component {
         })
     }
     toggleLoginForm = () => {
-        this.state.linkText == "Register" ?
+        this.state.linkText === "Register" ?
         this.setState({
             switchHandle: this.handleRegister,
             linkText: "Login",

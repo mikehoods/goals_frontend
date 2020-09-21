@@ -28,7 +28,7 @@ export class CreateGoal extends Component {
             username: userData.username
         })
         const goal = [this.state]
-        axios.post(`http://localhost:4000/goals`, {
+        axios.post(`mongodb+srv://PlantManATX:plants@cluster0.emvle.mongodb.net/goalsDB?retryWrites=true&w=majority/goals`, {
             goal
         })
     }
