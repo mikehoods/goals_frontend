@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import UserContext from '../context/UserContext'
 
 class Login extends Component {
     state = {
@@ -7,7 +8,11 @@ class Login extends Component {
         password: null,
         token: null
     }
-
+    static contextType = UserContext
+    componentDidMount(){
+        const userData = this.context
+        console.log(userData)
+    }
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
@@ -17,9 +22,13 @@ class Login extends Component {
         e.preventDefault()
         const {username, password} = this.state
         const loginUser = {username, password}
+        const {userData, setUserData} = this.context
+        const newUser = { username: username, token: null};
+        setUserData(newUser)
         axios.post('http://localhost:3000/users/login', loginUser)
             .then((res)=> {
                 localStorage.setItem("auth-token", JSON.stringify(res.data.token));
+                
                 this.setState({
                     token: res.data.token
                 })

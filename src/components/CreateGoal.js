@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import UserContext from '../context/UserContext'
 
 export class CreateGoal extends Component {
+    static contextType = UserContext
+
     state = {
         name: '',
         category: 'Life',
@@ -10,7 +13,8 @@ export class CreateGoal extends Component {
         progress: 0,
         complete: false,
         steps: [],
-        currentStep: ''
+        currentStep: '',
+        username: undefined
     }
     handleChange = (e) => {
         this.setState({
@@ -19,8 +23,12 @@ export class CreateGoal extends Component {
     }
     handleSubmit = (e) => {
         // e.preventDefault();
+        const userData = this.context
+        this.setState({
+            username: userData.username
+        })
         const goal = [this.state]
-        axios.post(`http://localhost:3000/goals`, {
+        axios.post(`http://localhost:4000/goals`, {
             goal
         })
     }
@@ -38,7 +46,7 @@ export class CreateGoal extends Component {
             this.state.steps
         ])
         document.getElementById('currentStep').value = ''
-        this.state.currentStep = ''
+        // this.state.currentStep = ''
     }
     deleteStep = (e, index) => {
         // e.preventDefault();

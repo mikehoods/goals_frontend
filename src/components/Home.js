@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import CreateGoal from './CreateGoal'
 import EditGoal from './EditGoal'
+import UserContext from '../context/UserContext'
 
 class Home extends Component {
     state = {
@@ -10,8 +11,12 @@ class Home extends Component {
         formToggle: <CreateGoal/>,
         completeGoals: ''
     }
+    static contextType = UserContext
+
     componentDidMount(){
-        axios.get('http://localhost:3000/goals')
+        const user = this.context
+
+        axios.get('http://localhost:4000/goals')
             .then(res => {
                 this.setState({
                     goals: res.data
@@ -19,7 +24,7 @@ class Home extends Component {
             })
     }
     handleDelete = (id) => {
-        axios.delete(`http://localhost:3000/goals/${id}/`)
+        axios.delete(`http://localhost:4000/goals/${id}/`)
             .then(()=> {
                 this.setState({
                     goals: this.state.goals.filter(g => g._id !== id),
@@ -37,7 +42,7 @@ class Home extends Component {
         console.log(goal)
         goal.complete = !goal.complete
         goals[index] = goal
-        axios.put(`http://localhost:3000/goals/${goals[index]._id}/`, 
+        axios.put(`http://localhost:4000/goals/${goals[index]._id}/`, 
             goal
             )
             .then(()=> {
@@ -61,7 +66,9 @@ class Home extends Component {
         }
         const goals = this.state.goals
         const completedGoals = goals.filter(g => g.complete === true)
-        const completionPercentage = ((completedGoals.length / goals.length) * 100).toFixed(0)
+        const completionPercentage = goals.length > 0 ?
+            ((completedGoals.length / goals.length) * 100).toFixed(0)
+            : 0;
         // const isCompleteFilter = ''
         const goalsList = goals.length ? (
             goals.filter(goal => goal.category.includes(this.state.filterBy)).map((goal, index) => {

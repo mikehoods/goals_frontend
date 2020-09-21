@@ -31,7 +31,7 @@ export class EditGoal extends Component {
             this.state.steps
         ])
         document.getElementById('currentStep').value = ''
-        this.state.currentStep = ''
+        // this.state.currentStep = ''
     }
     deleteStep = (e, index) => {
         // e.preventDefault();
@@ -58,7 +58,7 @@ export class EditGoal extends Component {
         })
     }
     handleSubmit = (e) => {
-        axios.put(`https://localhost:3000/goals/${this.state._id}/`,
+        axios.put(`https://localhost:4000/goals/${this.state._id}/`,
             this.state
         )
     }

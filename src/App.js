@@ -8,13 +8,18 @@ import UserContext from './context/UserContext'
 class App extends Component {
   static contextType = UserContext
 
-  componentDidMount() {
-    const userData = {
-      username: undefined,
-      token: undefined
-    }
-    console.log(userData)
+  userData = {
+    username: undefined,
+    token: undefined
   }
+
+  // componentDidMount() {
+  //   const userData = {
+  //     username: undefined,
+  //     token: undefined
+  //   }
+  //   console.log(userData)
+  // }
 
   render(){
     return (
