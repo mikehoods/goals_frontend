@@ -17,10 +17,10 @@ class Register extends Component {
         e.preventDefault()
         const {username, password} = this.state
         const newUser = {username, password}
-        await axios.post('http://localhost:3000/users/register',
+        await axios.post('http://localhost:4000/users/register',
             newUser
         )
-        const loginResponse = await axios.post('http://localhost:3000/users/login', 
+        const loginResponse = await axios.post('http://localhost:4000/users/login', 
             newUser
         )
         await localStorage.setItem("auth-token", JSON.stringify(loginResponse.data.token))
@@ -44,9 +44,10 @@ class Register extends Component {
                     <div>
                         <input type='submit' value='Register'/>
                     </div>
-                    
-
                 </form>
+                <div className='navlinks'>
+                    <button>Login</button>
+                </div>
             </div>
         )
     }
