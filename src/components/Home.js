@@ -16,7 +16,7 @@ class Home extends Component {
     componentDidMount(){
         // const user = this.context
 
-        axios.get('https://react-goal-tracker.herokuapp.com//goals', {
+        axios.get('https://react-goal-tracker.herokuapp.com/goals', {
             // headers: {
             //     crossorigin: true
             // }
