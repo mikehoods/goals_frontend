@@ -16,10 +16,10 @@ class Home extends Component {
     componentDidMount(){
         // const user = this.context
 
-        axios.get('https://react-goal-tracker.herokuapp.com/goals', {
-            headers: {
-                crossorigin: true
-            }
+        axios.get('https://react-goal-tracker.herokuapp.com//goals', {
+            // headers: {
+            //     crossorigin: true
+            // }
         })
             .then(res => {
                 this.setState({
@@ -28,7 +28,7 @@ class Home extends Component {
             })
     }
     handleDelete = (id) => {
-        axios.delete(`https://react-goal-tracker.herokuapp.com/goals/${id}/`)
+        axios.delete(`http://localhost:4000/goals/${id}/`)
             .then(()=> {
                 this.setState({
                     goals: this.state.goals.filter(g => g._id !== id),
@@ -46,7 +46,7 @@ class Home extends Component {
         console.log(goal)
         goal.complete = !goal.complete
         goals[index] = goal
-        axios.put(`https://react-goal-tracker.herokuapp.com/goals/${goals[index]._id}/`, 
+        axios.put(`http://localhost:4000/goals/${goals[index]._id}/`, 
             goal
             )
             .then(()=> {
