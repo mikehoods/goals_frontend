@@ -28,7 +28,7 @@ export class CreateGoal extends Component {
             username: userData.username
         })
         const goal = [this.state]
-        axios.post(`http://localhost:4000/goals`, {
+        axios.post(`https://react-goal-tracker.herokuapp.com/goals`, {
             goal
         })
     }

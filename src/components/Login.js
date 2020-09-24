@@ -31,7 +31,7 @@ class Login extends Component {
         const { setUserData } = this.context
         const newUser = { username: username, token: null};
         setUserData(newUser)
-        axios.post('http://localhost:4000/users/login', loginUser)
+        axios.post('https://react-goal-tracker.herokuapp.com/users/login', loginUser)
             .then((res)=> {
                 localStorage.setItem("auth-token", JSON.stringify(res.data.token));
                 
@@ -44,10 +44,10 @@ class Login extends Component {
         e.preventDefault()
         const {username, password} = this.state
         const newUser = {username, password}
-        await axios.post('http://localhost:4000/users/register',
+        await axios.post('https://react-goal-tracker.herokuapp.com/users/register',
             newUser
         )
-        const loginResponse = await axios.post('http://localhost:4000/users/login', 
+        const loginResponse = await axios.post('https://react-goal-tracker.herokuapp.com/users/login', 
             newUser
         )
         await localStorage.setItem("auth-token", JSON.stringify(loginResponse.data.token))
