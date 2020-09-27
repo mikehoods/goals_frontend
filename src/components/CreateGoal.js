@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import UserContext from '../context/UserContext'
+// import UserContext from '../context/UserContext'
+
+import { connect } from 'react-redux'
 
 export class CreateGoal extends Component {
-    static contextType = UserContext
+    // static contextType = UserContext
 
     state = {
         name: '',
@@ -16,19 +18,23 @@ export class CreateGoal extends Component {
         currentStep: '',
         username: undefined
     }
+
+    componentDidUpdate(){
+        console.log(this.props.userData)
+    }
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         })
     }
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         // e.preventDefault();
-        const userData = this.context
-        this.setState({
-            username: userData.username
+        // const userData = this.context
+        await this.setState({
+            username: this.props.userData.username
         })
         const goal = [this.state]
-        axios.post(`https://react-goal-tracker.herokuapp.com/goals`, {
+        axios.post(`http://localhost:4000/goals`, {
             goal
         })
     }
@@ -155,4 +161,10 @@ export class CreateGoal extends Component {
     }
 }
 
-export default CreateGoal
+const mapStateToProps = (state) => {
+    return{
+        userData: state.userData
+    }
+}
+
+export default connect(mapStateToProps)(CreateGoal)

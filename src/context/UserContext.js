@@ -1,34 +1,28 @@
-import React, { Component } from 'react'
+import React, {Component, createContext} from 'react';
+export const UserDataContext = createContext(null);
 
-const UserContext = React.createContext()
-
-class UserProvider extends Component {
+export class UserDataProvider extends Component {
     state = {
-        userData: {},
+        userData: {
+            username: null,
+            token: null
+        },
+        setUserData: this.setUserData
     }
-
+    
     setUserData = (userData) => {
-        this.setState((prevState) => ({ userData }))
+        this.setState({ userData })
     }
-
+    
     render() {
-        const { children } = this.props
-        const { userData } = this.state
-        const { setUserData } = this
-
-        return (
-            <UserContext.Provider
-                value={{
-                    userData,
-                    setUserData
-                }}
-            >
-                {children}
-            </UserContext.Provider>
+        return(
+            <UserDataContext.Provider 
+            value={{
+                ...this.state,
+                setUserData: this.setUserData
+            }}>
+                {this.props.children}
+            </UserDataContext.Provider>
         )
     }
 }
-
-export default UserContext
-
-export { UserProvider }

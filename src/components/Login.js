@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import UserContext from '../context/UserContext'
+
+import { connect } from 'react-redux'
+import { updateUserData } from '../actions/userActions'
+
 
 class Login extends Component {
     state = {
@@ -13,10 +16,10 @@ class Login extends Component {
 
 
     }
-    static contextType = UserContext
+    // static contextType = UserContext
     componentDidMount(){
-        const userData = this.context
-        console.log(userData)
+        // const context = this.context;
+        console.log(this.props)
     }
     handleChange = (e) => {
         this.setState({
@@ -31,29 +34,35 @@ class Login extends Component {
         const { setUserData } = this.context
         const newUser = { username: username, token: null};
         setUserData(newUser)
-        axios.post('https://react-goal-tracker.herokuapp.com/users/login', loginUser)
+        axios.post('http://localhost:4000/users/login', loginUser)
             .then((res)=> {
                 localStorage.setItem("auth-token", JSON.stringify(res.data.token));
-                
                 this.setState({
                     token: res.data.token
-                })
+                });
+                
+                
             })
     }
     handleRegister = async (e) => {
         e.preventDefault()
         const {username, password} = this.state
         const newUser = {username, password}
-        await axios.post('https://react-goal-tracker.herokuapp.com/users/register',
+        // const context = this.context
+        await axios.post('http://localhost:4000/users/register',
             newUser
         )
-        const loginResponse = await axios.post('https://react-goal-tracker.herokuapp.com/users/login', 
+        const loginResponse = await axios.post('http://localhost:4000/users/login', 
             newUser
         )
         await localStorage.setItem("auth-token", JSON.stringify(loginResponse.data.token))
         this.setState({
-            token: localStorage.data.token
+            token: loginResponse.data.token
         })
+        const currentUser = { username: username, token: loginResponse.data.token};
+        console.log(currentUser)
+        this.props.updateUserData(currentUser)
+        
     }
     toggleLoginForm = () => {
         this.state.linkText === "Register" ?
@@ -96,4 +105,16 @@ class Login extends Component {
     }  
 }
 
-export default Login
+const mapStateToProps = (state) => {
+    return{
+        userData: state.userData
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateUserData: (currentUser) => { dispatch(updateUserData(currentUser)) }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

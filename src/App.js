@@ -3,15 +3,19 @@ import Navbar from './components/Navbar'
 import {BrowserRouter, Route, Switch } from 'react-router-dom'
 import Home from './components/Home'
 import Footer from './components/Footer'
-import UserContext from './context/UserContext'
+// import UserContext from './context/UserContext'
 
 class App extends Component {
-  static contextType = UserContext
+  // static contextType = UserContext
 
-  userData = {
-    username: undefined,
-    token: undefined
-  }
+  // state = {
+  //   userData: {},
+  //   setUserData: this.setUserData
+  // }
+
+  // setUserData = (userData) => {
+  //   this.setState({ userData })
+  // }
 
   // componentDidMount() {
   //   const userData = {
@@ -24,7 +28,7 @@ class App extends Component {
   render(){
     return (
       <BrowserRouter>
-        <UserContext.Provider value={this.userData}>
+        {/* <UserContext.Provider> */}
           <Navbar/>
           <Switch>
             <Route exact path='/' component={Home}/>
@@ -32,7 +36,7 @@ class App extends Component {
             <Route path='/register' component={Home}/>
           </Switch>
           <Footer/>
-        </UserContext.Provider>
+        {/* </UserContext.Provider> */}
       </BrowserRouter>
     );
   }

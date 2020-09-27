@@ -17,10 +17,10 @@ class Register extends Component {
         e.preventDefault()
         const {username, password} = this.state
         const newUser = {username, password}
-        await axios.post('https://react-goal-tracker.herokuapp.com',
+        await axios.post('http://localhost:4000/register',
             newUser
         )
-        const loginResponse = await axios.post('https://react-goal-tracker.herokuapp.com/users/login', 
+        const loginResponse = await axios.post('http://localhost:4000/users/login', 
             newUser
         )
         await localStorage.setItem("auth-token", JSON.stringify(loginResponse.data.token))

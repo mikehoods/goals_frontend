@@ -4,9 +4,29 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// import { UserDataProvider, UserDataContext } from './context/UserContext';
+
+import { createStore } from 'redux';
+import { Provider } from 'react-redux'
+import rootReducer from './reducers/rootreducer'
+
+const store = createStore(rootReducer);
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <UserDataProvider>
+      <UserDataContext.Consumer>
+        {({ userData, setUserData }) => (
+          <App 
+            userData={userData}
+            setUserData={setUserData}
+          />
+        )}
+      </UserDataContext.Consumer>
+    </UserDataProvider> */}
+    <Provider store={store}>
+      <App/>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
