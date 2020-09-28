@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import CreateGoal from './CreateGoal'
 import EditGoal from './EditGoal'
-// import UserContext from '../context/UserContext'
+
+import { connect } from 'react-redux'
 
 class Home extends Component {
     state = {
@@ -11,15 +12,19 @@ class Home extends Component {
         formToggle: <CreateGoal/>,
         completeGoals: ''
     }
-    // static contextType = UserContext
-
     componentDidMount(){
-        // const user = this.context
-
         axios.get('http://localhost:4000/goals')
             .then(res => {
                 this.setState({
-                    goals: res.data
+                    goals: res.data.filter(g => g.username === this.props.userData.username)
+                })
+            })
+    }
+    componentDidUpdate(){
+        axios.get('http://localhost:4000/goals')
+            .then(res => {
+                this.setState({
+                    goals: res.data.filter(g => g.username === this.props.userData.username).reverse()
                 })
             })
     }
@@ -64,12 +69,11 @@ class Home extends Component {
             const year = date.getFullYear();
             return `${month}/${day}/${year}`
         }
-        const goals = this.state.goals
-        const completedGoals = goals.filter(g => g.complete === true)
+        const goals = this.state.goals;
+        const completedGoals = goals.filter(g => g.complete === true);
         const completionPercentage = goals.length > 0 ?
             ((completedGoals.length / goals.length) * 100).toFixed(0)
             : 0;
-        // const isCompleteFilter = ''
         const goalsList = goals.length ? (
             goals.filter(goal => goal.category.includes(this.state.filterBy)).map((goal, index) => {
                 return (
@@ -101,7 +105,7 @@ class Home extends Component {
                 )
             })
         ) : (
-            <h1 className="noGoals">I have no goals...</h1>
+            <h1 className="noGoals">Try setting some new goals.</h1>
         )
         return (
             <div className="home-container">
@@ -142,4 +146,10 @@ class Home extends Component {
     }
 }
 
-export default Home
+const mapStateToProps = (state) => {
+    return{
+        userData: state.userData
+    }
+}
+
+export default connect(mapStateToProps)(Home)

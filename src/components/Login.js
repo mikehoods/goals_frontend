@@ -4,7 +4,6 @@ import axios from 'axios';
 import { connect } from 'react-redux'
 import { updateUserData } from '../actions/userActions'
 
-
 class Login extends Component {
     state = {
         username: null,
@@ -13,12 +12,8 @@ class Login extends Component {
         switchHandle: this.handleLogin,
         legendAndSubmitText: "Login",
         linkText: "Register"
-
-
     }
-    // static contextType = UserContext
     componentDidMount(){
-        // const context = this.context;
         console.log(this.props)
     }
     handleChange = (e) => {
@@ -26,29 +21,27 @@ class Login extends Component {
             [e.target.id]: e.target.value
         })
     }
-    handleLogin = async (e) => {
+    handleLogin = (e) => {
         e.preventDefault()
+        console.log("test")
         const {username, password} = this.state
         const loginUser = {username, password}
-        // const {userData, setUserData} = this.context
-        const { setUserData } = this.context
-        const newUser = { username: username, token: null};
-        setUserData(newUser)
         axios.post('http://localhost:4000/users/login', loginUser)
             .then((res)=> {
+                console.log(res.body)
                 localStorage.setItem("auth-token", JSON.stringify(res.data.token));
                 this.setState({
                     token: res.data.token
                 });
-                
-                
+                const currentUser = { username: username, token: res.data.token};
+                console.log(currentUser)
+                this.props.updateUserData(currentUser)
             })
     }
     handleRegister = async (e) => {
         e.preventDefault()
         const {username, password} = this.state
         const newUser = {username, password}
-        // const context = this.context
         await axios.post('http://localhost:4000/users/register',
             newUser
         )

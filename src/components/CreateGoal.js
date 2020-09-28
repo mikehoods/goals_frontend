@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-// import UserContext from '../context/UserContext'
 
 import { connect } from 'react-redux'
 
 export class CreateGoal extends Component {
-    // static contextType = UserContext
-
     state = {
         name: '',
         category: 'Life',
@@ -18,24 +15,26 @@ export class CreateGoal extends Component {
         currentStep: '',
         username: undefined
     }
-
-    componentDidUpdate(){
-        console.log(this.props.userData)
-    }
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         })
     }
     handleSubmit = async (e) => {
-        // e.preventDefault();
-        // const userData = this.context
+        e.preventDefault()
         await this.setState({
             username: this.props.userData.username
         })
         const goal = [this.state]
-        axios.post(`http://localhost:4000/goals`, {
+        await axios.post(`http://localhost:4000/goals`, {
             goal
+        })
+        this.setState({
+            name: '',
+            category: 'Life',
+            difficulty: 'Painless',
+            importance: 'Low',
+            steps: []
         })
     }
     handleStepChange = (e, index) => {
@@ -52,7 +51,6 @@ export class CreateGoal extends Component {
             this.state.steps
         ])
         document.getElementById('currentStep').value = ''
-        // this.state.currentStep = ''
     }
     deleteStep = (e, index) => {
         // e.preventDefault();
@@ -107,14 +105,15 @@ export class CreateGoal extends Component {
                     </div>
                 )
             })
-        : ""  
+            : ""
+        const {name, category, difficulty, importance} = this.state  
         return (
             <div className="addGoal_form-container">
                 <h1>Add a new goal</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="input-field">
                         <label htmlFor="name">Goal Name</label>
-                        <input type="text" id="name" autoFocus onChange={this.handleChange}/>
+                        <input type="text" id="name" value={name} autoFocus onChange={this.handleChange}/>
                     </div>
                     {stepList}
                     <div className="input-field">
@@ -125,7 +124,7 @@ export class CreateGoal extends Component {
                     <div className="selectors">
                     <div className="input-field selector-item">
                         <label htmlFor="category">Category</label>
-                        <select id="category" defaultValue="Life" onChange={this.handleChange}>
+                        <select id="category" value={category} onChange={this.handleChange}>
                             <option value="Life">Life</option>
                             <option value="Love">Love</option>
                             <option value="Happiness">Happiness</option>
@@ -136,7 +135,7 @@ export class CreateGoal extends Component {
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="difficulty">Difficulty</label>
-                        <select id="difficulty" defaultValue="1" onChange={this.handleChange}>
+                        <select id="difficulty" value={difficulty} onChange={this.handleChange}>
                             <option value="Painless">Painless</option>
                             <option value="Meh">Meh</option>
                             <option value="Tough">Tough</option>
@@ -145,7 +144,7 @@ export class CreateGoal extends Component {
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="importance">Importance</label>
-                        <select id="importance" defaultValue="1" onChange={this.handleChange}>
+                        <select id="importance" value={importance} onChange={this.handleChange}>
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
                             <option value="High">High</option>
