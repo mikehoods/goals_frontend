@@ -7,8 +7,9 @@ import { connect } from 'react-redux'
 class Main extends Component {
     render(){
         const checkIfLoggedIn = 
-        !this.props.userData.username ? <Welcome/>
-        : <Home/>
+            !this.props.userData.username ? 
+                <Welcome/>
+                : <Home/>
         return (
             <div>
                     {checkIfLoggedIn}

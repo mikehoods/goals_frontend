@@ -8,22 +8,12 @@ import * as serviceWorker from './serviceWorker';
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux'
-import rootReducer from './reducers/rootreducer'
+import userReducer from './store/reducers/userReducer'
 
-const store = createStore(rootReducer);
+const store = createStore(userReducer);
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <UserDataProvider>
-      <UserDataContext.Consumer>
-        {({ userData, setUserData }) => (
-          <App 
-            userData={userData}
-            setUserData={setUserData}
-          />
-        )}
-      </UserDataContext.Consumer>
-    </UserDataProvider> */}
     <Provider store={store}>
       <App/>
     </Provider>

@@ -1,8 +1,9 @@
 const initState = {
-    userData: {}
+    userData: {},
+    AddGoalToggle: true
 }
 
-const rootReducer = (state = initState, action) => {
+const userReducer = (state = initState, action) => {
     if (action.type === 'UPDATE_USERDATA') {
         console.log(action.currentUser)
         return {
@@ -16,4 +17,4 @@ const rootReducer = (state = initState, action) => {
     return state;
 }
 
-export default rootReducer
+export default userReducer

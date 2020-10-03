@@ -148,7 +148,8 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        userData: state.userData
+        userData: state.userData,
+        AddGoalToggle: state.userData
     }
 }
 

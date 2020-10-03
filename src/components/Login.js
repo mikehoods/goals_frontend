@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import { connect } from 'react-redux'
-import { updateUserData } from '../actions/userActions'
+import { updateUserData } from '../store/actions/userActions'
 
 class Login extends Component {
     state = {
