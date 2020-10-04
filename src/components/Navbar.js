@@ -1,6 +1,6 @@
 import React from 'react'
-// import Register from './Register'
 import Login from './Login'
+import Logout from './Logout'
 
 const Navbar = () => {
     return ( 
@@ -8,6 +8,7 @@ const Navbar = () => {
             <div className='container'>
                 <h1 className="app-logo">Goal Tracker</h1>
                 <Login/>
+                <Logout/>   
             </div>
         </nav>
      );

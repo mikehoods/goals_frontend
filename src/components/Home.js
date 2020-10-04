@@ -2,21 +2,30 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import CreateGoal from './CreateGoal'
 import EditGoal from './EditGoal'
-
-import { connect } from 'react-redux'
+import { withAuth0 } from '@auth0/auth0-react'
 
 class Home extends Component {
+    constructor(props) {
+        super(props)
+        this.handler = this.handler.bind(this)
+    }
     state = {
         goals: [],
         filterBy: "",
         formToggle: <CreateGoal/>,
         completeGoals: ''
     }
+    handler() {
+        this.setState({
+            formToggle: <CreateGoal/>
+        })
+    }
     componentDidMount(){
         axios.get('http://localhost:4000/goals')
             .then(res => {
                 this.setState({
-                    goals: res.data.filter(g => g.username === this.props.userData.username)
+                    goals: res.data.filter(g => g.username === this.props.auth0.user.name)
+                    // goals: res.data
                 })
             })
     }
@@ -24,7 +33,8 @@ class Home extends Component {
         axios.get('http://localhost:4000/goals')
             .then(res => {
                 this.setState({
-                    goals: res.data.filter(g => g.username === this.props.userData.username).reverse()
+                    goals: res.data.filter(g => g.username === this.props.auth0.user.name)
+                    // goals: res.data
                 })
             })
     }
@@ -58,7 +68,7 @@ class Home extends Component {
     }
     handleEdit = (goal) => {
         this.setState({
-            formToggle: <EditGoal goal={goal}/>
+            formToggle: <EditGoal handler={this.handler} goal={goal}/>
         })
     }
     render(){
@@ -133,11 +143,11 @@ class Home extends Component {
                 </div>
                 <div className="goals-container">
                     <h1 className="myGoals-h1">My Goals</h1>
-                    <div className="goals-buttons">
+                    {/* <div className="goals-buttons">
                         <button>Pending</button>
                         <button>Complete</button>
                         <button>All</button>
-                    </div>
+                    </div> */}
                     {goalsList}
                 </div>
             </div>
@@ -146,11 +156,4 @@ class Home extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return{
-        userData: state.userData,
-        AddGoalToggle: state.userData
-    }
-}
-
-export default connect(mapStateToProps)(Home)
+export default withAuth0(Home)

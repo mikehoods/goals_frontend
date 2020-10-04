@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Home from './Home'
 import Welcome from './Welcome'
+import { useAuth0 } from '@auth0/auth0-react'
 
-import { connect } from 'react-redux'
-
-class Main extends Component {
-    render(){
+function Main() {
+        const { user } = useAuth0();
         const checkIfLoggedIn = 
-            !this.props.userData.username ? 
+            !user ? 
                 <Welcome/>
                 : <Home/>
         return (
@@ -16,12 +15,5 @@ class Main extends Component {
             </div>
         )
     }
-}
 
-const mapStateToProps = (state) => {
-    return{
-        userData: state.userData
-    }
-}
-
-export default connect(mapStateToProps)(Main)
+export default Main

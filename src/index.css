@@ -12,6 +12,7 @@ body {
 .navbar .container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background: rgb(39, 171, 157);
   color: whitesmoke;
   text-shadow: 1px 1px black;
@@ -21,47 +22,12 @@ body {
   padding: 0 0 0 2rem;
 }
 
-.loginContainer {
-  display: flex;
-  align-items: center;
-}
-
-.loginForm {
-  display: flex;
-  align-items: flex-end;
-}
-
-.loginForm-div {
-  margin: 0 2vw;
-}
-
-.loginSubmit {
-  background: none;
-  border: none;
-  color: whitesmoke;
-  font-size: 1rem;
-  font-weight: 500;
-  text-shadow: 1px 1px black;
-}
-
-.orText {
-  color: black;
-  margin: 0 2vw;
-  margin-top: 1.2rem;
-}
-
 .navlinks {
   margin-right: 3vw;
-  margin-top: 1.2rem;
+  font-size: 1.2rem;
 }
 
-.navlinks p {
-  color: whitesmoke;
-  margin: 0;
-  padding: .3rem;
-}
-
-.navlinks p:hover, .loginSubmit:hover {
+.navlinks:hover {
   cursor: pointer;
   padding: .2rem;
   border-radius: 6px;
@@ -219,7 +185,9 @@ body {
   font-size: 2rem;
   font-weight: 700;
   text-shadow: 1px 1px black;
-  
+  font-family: 'Quicksand', sans-serif; 
+  box-shadow: 1px 1px black;
+  border: thin;
 }
 
 .btn:hover, #deleteStep:hover, #addStep:hover {
@@ -243,11 +211,32 @@ input {
   margin: 0 .4rem 0 0;
 }
 
+.buttons-step {
+  display: flex;
+  justify-content: flex-end;
+}
+
 #deleteStep {
-  color: black;
-  text-shadow: none;
   font-weight: 900;
-  font-size: 1.1rem;
+  margin-left: .5rem;
+}
+
+.stepButton {
+  background: rgb(39, 171, 157);
+  padding: .2rem;
+  font-size: 1rem;
+  border-radius: 50%;
+  width: 1.75rem;
+  height: 1.75rem;
+  text-align: center;
+  color: whitesmoke;
+  text-shadow: .5px .5px black;
+  border: thin;
+  box-shadow: 1px 1px black;
+}
+
+.downButton {
+  margin-left: .5rem;
 }
 
 #addStep {
@@ -258,12 +247,23 @@ input {
   font-size: 1rem;
 }
 
+.material-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .material-icons:hover {
   cursor: pointer;
 }
 
 select {
   width: 7vw;
+}
+
+.input-step {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .input-field label {
@@ -289,4 +289,39 @@ select {
 
 .totalCompletion {
   color: rgb(39, 171, 157);;
+}
+
+@media only screen and (max-width: 600px) {
+  .home-container{
+    display: block;
+  }
+
+  .side-container, .goals-container{
+    width: 100vw;
+    box-sizing: border-box;
+    margin: 1rem 0;
+    padding: 4px;
+  }
+
+  .goals-container{
+    margin-bottom: 1rem;
+  }
+  select {
+    width: 22vw;
+  }
+  .btn {
+    width: 25vw;
+    margin: 0 2vw;
+    font-size: 1.5rem;
+  }
+  .goal-footer-item {
+    font-size: .8rem;
+  }
+  .progress-container {
+    font-size: .8rem;
+    padding: .2rem;
+  }
+  .filterGoals-container {
+    margin: 1rem 0;
+  }
 }

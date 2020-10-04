@@ -1,22 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-// import { UserDataProvider, UserDataContext } from './context/UserContext';
-
-import { createStore } from 'redux';
-import { Provider } from 'react-redux'
-import userReducer from './store/reducers/userReducer'
-
-const store = createStore(userReducer);
+import { domain, clientId } from './auth_config.json'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Auth0Provider
+      domain={domain}
+      clientId={clientId}
+      redirectUri={window.location.origin}>
       <App/>
-    </Provider>
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
