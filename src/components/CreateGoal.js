@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import UserContext from '../context/UserContext'
+import { withAuth0 } from '@auth0/auth0-react'
 
 export class CreateGoal extends Component {
-    static contextType = UserContext
-
     state = {
         name: '',
         category: 'Life',
@@ -21,15 +19,21 @@ export class CreateGoal extends Component {
             [e.target.id]: e.target.value
         })
     }
-    handleSubmit = (e) => {
-        // e.preventDefault();
-        const userData = this.context
-        this.setState({
-            username: userData.username
+    handleSubmit = async (e) => {
+        e.preventDefault()
+        await this.setState({
+            username: this.props.auth0.user.name
         })
         const goal = [this.state]
-        axios.post(`https://react-goal-tracker.herokuapp.com/goals`, {
+        await axios.post(`http://localhost:4000/goals`, {
             goal
+        })
+        this.setState({
+            name: '',
+            category: 'Life',
+            difficulty: 'Painless',
+            importance: 'Low',
+            steps: []
         })
     }
     handleStepChange = (e, index) => {
@@ -46,10 +50,9 @@ export class CreateGoal extends Component {
             this.state.steps
         ])
         document.getElementById('currentStep').value = ''
-        // this.state.currentStep = ''
     }
     deleteStep = (e, index) => {
-        // e.preventDefault();
+        e.preventDefault();
         const steps = this.state.steps
         steps.splice(index, 1)
         this.setState({
@@ -57,7 +60,8 @@ export class CreateGoal extends Component {
         })
 
     }
-    moveStepDown = (step, index) => {
+    moveStepDown = (e, step, index) => {
+        e.preventDefault();
         const steps = this.state.steps
         steps.splice(index + 2, 0, step)
         steps.splice(index, 1)
@@ -65,7 +69,8 @@ export class CreateGoal extends Component {
             steps
         })
     }
-    moveStepUp = (step, index) => {
+    moveStepUp = (e, step, index) => {
+        e.preventDefault();
         const steps = this.state.steps
         steps.splice(index - 1, 0, step)
         steps.splice(index + 1, 1)
@@ -74,6 +79,8 @@ export class CreateGoal extends Component {
         })
     }
     render() {
+        const { user } = this.props.auth0;
+        console.log(user)
         const stepsLength = this.state.steps.length
         // const moveDown = <i className="material-icons" onClick={() => {this.moveStepDown(step, index)}}>arrow_drop_down</i>
         // const moveUp = <i className="material-icons">arrow_drop_up</i>
@@ -82,33 +89,36 @@ export class CreateGoal extends Component {
                 return (
                     <div key={index} className="input-field">
                         <label htmlFor="steps">Step {index+1}</label>
+                        <div className="input-step">
                         <input id="steps" value={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
                         {index > 0 && index !== stepsLength -1 ?
-                            <span>
-                                <i className="material-icons" onClick={() => {this.moveStepUp(step, index)}}>arrow_drop_up</i>
-                                <i className="material-icons" onClick={() => {this.moveStepDown(step, index)}}>arrow_drop_down</i>
-                            </span>
+                            <div className="buttons-step">
+                                <button className="stepButton" onClick={(e) => {this.moveStepUp(e, step, index)}}><i className="material-icons">arrow_drop_up</i></button>
+                                <button className="downButton stepButton" onClick={(e) => {this.moveStepDown(e, step, index)}}><i className="material-icons">arrow_drop_down</i></button>
+                            </div>
                             : 
                             index > 0 && index === stepsLength - 1 ?
-                            <i className="material-icons" onClick={() => {this.moveStepUp(step, index)}}>arrow_drop_up</i>
+                            <button className="stepButton" onClick={(e) => {this.moveStepUp(e, step, index)}}><i className="material-icons" >arrow_drop_up</i></button>
                                 :
                                 index === 0 && stepsLength > 1 ?
-                                    <i className="material-icons" onClick={() => {this.moveStepDown(step, index)}}>arrow_drop_down</i>
+                                    <button className="stepButton" onClick={(e) => {this.moveStepDown(e, step, index)}}><i className="material-icons">arrow_drop_down</i></button>
                                     :
                                     ""
                         } 
-                        <span id="deleteStep" onClick={(e) => {this.deleteStep(e, index)}}>x</span>
+                        <button className="stepButton" id="deleteStep" onClick={(e) => {this.deleteStep(e, index)}}>x</button>
+                        </div>
                     </div>
                 )
             })
-        : ""  
+            : ""
+        const {name, category, difficulty, importance} = this.state  
         return (
             <div className="addGoal_form-container">
                 <h1>Add a new goal</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="input-field">
                         <label htmlFor="name">Goal Name</label>
-                        <input type="text" id="name" autoFocus onChange={this.handleChange}/>
+                        <input type="text" id="name" value={name} autoFocus onChange={this.handleChange}/>
                     </div>
                     {stepList}
                     <div className="input-field">
@@ -119,7 +129,7 @@ export class CreateGoal extends Component {
                     <div className="selectors">
                     <div className="input-field selector-item">
                         <label htmlFor="category">Category</label>
-                        <select id="category" defaultValue="Life" onChange={this.handleChange}>
+                        <select id="category" value={category} onChange={this.handleChange}>
                             <option value="Life">Life</option>
                             <option value="Love">Love</option>
                             <option value="Happiness">Happiness</option>
@@ -130,16 +140,16 @@ export class CreateGoal extends Component {
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="difficulty">Difficulty</label>
-                        <select id="difficulty" defaultValue="1" onChange={this.handleChange}>
+                        <select id="difficulty" value={difficulty} onChange={this.handleChange}>
                             <option value="Painless">Painless</option>
-                            <option value="Meh">Meh</option>
+                            <option value="Moderate">Moderate</option>
                             <option value="Tough">Tough</option>
                             <option value='Woah!'>Woah!</option>
                         </select>
                     </div>
                     <div className="input-field selector-item">
                         <label htmlFor="importance">Importance</label>
-                        <select id="importance" defaultValue="1" onChange={this.handleChange}>
+                        <select id="importance" value={importance} onChange={this.handleChange}>
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
                             <option value="High">High</option>
@@ -155,4 +165,4 @@ export class CreateGoal extends Component {
     }
 }
 
-export default CreateGoal
+export default withAuth0(CreateGoal)
