@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import CreateGoal from './CreateGoal'
 import EditGoal from './EditGoal'
-
-import { connect } from 'react-redux'
+import { withAuth0 } from '@auth0/auth0-react'
 
 class Home extends Component {
     state = {
@@ -16,7 +15,8 @@ class Home extends Component {
         axios.get('http://localhost:4000/goals')
             .then(res => {
                 this.setState({
-                    goals: res.data.filter(g => g.username === this.props.userData.username)
+                    goals: res.data.filter(g => g.username === this.props.auth0.user.name)
+                    // goals: res.data
                 })
             })
     }
@@ -24,7 +24,8 @@ class Home extends Component {
         axios.get('http://localhost:4000/goals')
             .then(res => {
                 this.setState({
-                    goals: res.data.filter(g => g.username === this.props.userData.username).reverse()
+                    goals: res.data.filter(g => g.username === this.props.auth0.user.name)
+                    // goals: res.data
                 })
             })
     }
@@ -146,11 +147,4 @@ class Home extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return{
-        userData: state.userData,
-        AddGoalToggle: state.userData
-    }
-}
-
-export default connect(mapStateToProps)(Home)
+export default withAuth0(Home)

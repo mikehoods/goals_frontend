@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { connect } from 'react-redux'
-
 class Welcome extends Component {
     render(){
         return (
@@ -10,10 +8,4 @@ class Welcome extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return{
-        userData: state.userData
-    }
-}
-
-export default connect(mapStateToProps)(Welcome)
+export default Welcome

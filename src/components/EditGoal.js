@@ -34,14 +34,15 @@ export class EditGoal extends Component {
         // this.state.currentStep = ''
     }
     deleteStep = (e, index) => {
-        // e.preventDefault();
+        e.preventDefault();
         const steps = this.state.steps
         steps.splice(index, 1)
         this.setState({
             steps
         })
     }
-    moveStepDown = (step, index) => {
+    moveStepDown = (e, step, index) => {
+        e.preventDefault();
         const steps = this.state.steps
         steps.splice(index + 2, 0, step)
         steps.splice(index, 1)
@@ -49,7 +50,8 @@ export class EditGoal extends Component {
             steps
         })
     }
-    moveStepUp = (step, index) => {
+    moveStepUp = (e, step, index) => {
+        e.preventDefault();
         const steps = this.state.steps
         steps.splice(index - 1, 0, step)
         steps.splice(index + 1, 1)
@@ -71,22 +73,24 @@ export class EditGoal extends Component {
                 return (
                     <div key={index} className="input-field">
                         <label htmlFor="steps">Step {index+1}</label>
+                        <div className="input-step">
                         <input id="steps" value={step} onChange={(e) => {this.handleStepChange(e, index)}}/>
                         {index > 0 && index !== stepsLength -1 ?
-                            <span>
-                                <i className="material-icons" onClick={() => {this.moveStepUp(step, index)}}>arrow_drop_up</i>
-                                <i className="material-icons" onClick={() => {this.moveStepDown(step, index)}}>arrow_drop_down</i>
-                            </span>
+                            <div className="buttons-step">
+                            <button className="stepButton"><i className="material-icons" onClick={(e) => {this.moveStepUp(e, step, index)}}>arrow_drop_up</i></button>
+                            <button className="downButton stepButton"><i className="material-icons" onClick={(e) => {this.moveStepDown(e, step, index)}}>arrow_drop_down</i></button>
+                        </div>
                             : 
                             index > 0 && index === stepsLength - 1 ?
-                            <i className="material-icons" onClick={() => {this.moveStepUp(step, index)}}>arrow_drop_up</i>
+                            <button className="stepButton"><i className="material-icons" onClick={(e) => {this.moveStepUp(e, step, index)}}>arrow_drop_up</i></button>
                                 :
                                 index === 0 && stepsLength > 1 ?
-                                    <i className="material-icons" onClick={() => {this.moveStepDown(step, index)}}>arrow_drop_down</i>
+                                    <button className="stepButton"><i className="material-icons" onClick={(e) => {this.moveStepDown(e, step, index)}}>arrow_drop_down</i></button>
                                     :
                                     ""
-                        }
-                        <span id="deleteStep" onClick={(e) => {this.deleteStep(e, index)}}>x</span>
+                        } 
+                        <button className="stepButton" id="deleteStep" onClick={(e) => {this.deleteStep(e, index)}}>x</button>
+                        </div>
                     </div>
                 )
             })
