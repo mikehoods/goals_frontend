@@ -64,6 +64,11 @@ export class EditGoal extends Component {
         axios.put(`http://localhost:4000/goals/${this.state._id}/`,
             this.state
         )
+        this.props.handler();
+    }
+    handleCancel = (e) => {
+        e.preventDefault();
+        this.props.handler();
     }
     render() {
         const goal = this.state
@@ -125,7 +130,7 @@ export class EditGoal extends Component {
                         <label htmlFor="difficulty">Difficulty</label>
                         <select id="difficulty" value={goal.difficulty} onChange={this.handleChange}>
                             <option value="Painless">Painless</option>
-                            <option value="Meh">Meh</option>
+                            <option value="Moderate">Moderate</option>
                             <option value="Tough">Tough</option>
                             <option value='Woah!'>Woah!</option>
                         </select>
@@ -140,6 +145,7 @@ export class EditGoal extends Component {
                     </div>
                     </div>
                     <div className="input-field submit">
+                        <button className="btn" onClick={this.handleCancel}>Cancel</button>
                         <input className="btn" type="submit" id="addGoal" value="Edit" onSubmit={this.handleSubmit}/>
                     </div>
                 </form>
