@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(to left top, rgb(141, 151, 159), rgb(220, 240, 230));
+  background: linear-gradient(to left top, rgb(217, 225, 223), rgb(44, 52, 48));
   font-family: 'Quicksand', sans-serif;
 }
 
@@ -13,7 +13,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgb(39, 171, 157);
+  background: rgb(23, 143, 131);
   color: whitesmoke;
   text-shadow: 1px 1px black;
 }
@@ -40,11 +40,11 @@ body {
   align-items: center;
   justify-content: center;
   height: 75vh;
-  color: rgb(238, 146, 48);
-  text-shadow: 1px 1px whitesmoke;
+  color: rgb(249, 157, 59);
   font-size: 2.5rem;
-  background: whitesmoke;
+  background: linear-gradient(to left top, rgb(217, 225, 223), rgb(44, 52, 48));
   margin: 0;
+  text-shadow: 1px 1px black;
 }
 
 .home-container {
@@ -61,7 +61,7 @@ body {
 }
 
 .addGoal-container, .filterGoals-container, .progress-container {
-  background-color: rgb(238, 146, 48);
+  background-color: rgb(249, 157, 59);
   padding: .6rem .2rem;
   border-radius: 14px;
   border: 3px solid rgb(101, 101, 101);
@@ -94,7 +94,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(238, 146, 48);
+  background-color: rgb(249, 157, 59);
   margin: 4rem 0;
   width: 45%;
   padding: .8rem;
@@ -174,6 +174,9 @@ body {
   text-align: center;
   padding: .4rem;
   text-shadow: 1px 1px black;
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
 }
 
 .btn {
@@ -188,6 +191,7 @@ body {
   font-family: 'Quicksand', sans-serif; 
   box-shadow: 1px 1px black;
   border: thin;
+  margin: 0 1rem;
 }
 
 .btn:hover, #deleteStep:hover, #addStep:hover {
