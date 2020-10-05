@@ -33,7 +33,8 @@ export class CreateGoal extends Component {
             category: 'Life',
             difficulty: 'Painless',
             importance: 'Low',
-            steps: []
+            steps: [],
+            currentStep: ''
         })
     }
     handleStepChange = (e, index) => {
