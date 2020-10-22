@@ -11,9 +11,12 @@ class Home extends Component {
     }
     state = {
         goals: [],
-        filterBy: "",
         formToggle: <CreateGoal/>,
-        completeGoals: ''
+        completeGoals: '',
+        filterByCat: "",
+        filterByDiff: "",
+        filterByImp: "",
+        filteredGoals: []
     }
     handler() {
         this.setState({
@@ -24,17 +27,8 @@ class Home extends Component {
         axios.get('https://react-goal-tracker.herokuapp.com/goals')
             .then(res => {
                 this.setState({
-                    goals: res.data.filter(g => g.username === this.props.auth0.user.name)
-                    // goals: res.data
-                })
-            })
-    }
-    componentDidUpdate(){
-        axios.get('https://react-goal-tracker.herokuapp.com/goals')
-            .then(res => {
-                this.setState({
-                    goals: res.data.filter(g => g.username === this.props.auth0.user.name)
-                    // goals: res.data
+                    goals: res.data.filter(g => g.username === this.props.auth0.user.name),
+                    filteredGoals: res.data.filter(g => g.username === this.props.auth0.user.name)
                 })
             })
     }
@@ -47,10 +41,34 @@ class Home extends Component {
                 })
             })
     }
-    handleFilter = (e) => {
+    handleFilterGoals = () => {
+        const { goals, filterByCat, filterByDiff, filterByImp } = this.state
+        let filteredGoals = goals
+        filteredGoals = filteredGoals.filter(goal => goal.category.includes(filterByCat))
+        filteredGoals = filteredGoals.filter(goal => 
+            goal.difficulty.includes(filterByDiff) 
+            && goal.importance.includes(filterByImp))
         this.setState({
-            filterBy: e.target.value,
+            filteredGoals: filteredGoals
         })
+    }
+    handleFilterCat = async (e) => {
+        await this.setState({
+            filterByCat: e.target.value,
+        })
+        this.handleFilterGoals()
+    }
+    handleFilterDiff = async (e) => {
+        await this.setState({
+            filterByDiff: e.target.value,
+        })
+        this.handleFilterGoals()
+    }
+    handleFilterImp = async (e) => {
+        await this.setState({
+            filterByImp: e.target.value,
+        })
+        this.handleFilterGoals()
     }
     handleComplete = (goal, index) => {
         const goals = this.state.goals
@@ -80,12 +98,16 @@ class Home extends Component {
             return `${month}/${day}/${year}`
         }
         const goals = this.state.goals;
+        const filteredGoals = this.state.filteredGoals;
         const completedGoals = goals.filter(g => g.complete === true);
         const completionPercentage = goals.length > 0 ?
             ((completedGoals.length / goals.length) * 100).toFixed(0)
             : 0;
-        const goalsList = goals.length ? (
-            goals.filter(goal => goal.category.includes(this.state.filterBy)).map((goal, index) => {
+        const noGoalsFound = goals.length ?
+        <h1 className="noGoals">No goals found.</h1>
+        : <h1 className="noGoals">Try setting some new goals.</h1>;
+        const goalsList = filteredGoals.length ? (
+            filteredGoals.map((goal, index) => {
                 return (
                     <div className="goal card" key={goal._id}>
                         <div className="card-content">
@@ -114,9 +136,7 @@ class Home extends Component {
                     </div>
                 )
             })
-        ) : (
-            <h1 className="noGoals">Try setting some new goals.</h1>
-        )
+        ) : noGoalsFound
         return (
             <div className="home-container">
                 <div className="side-container">
@@ -124,16 +144,36 @@ class Home extends Component {
                         {this.state.formToggle}
                     </div>
                     <div className="filterGoals-container">
+                        <h1>Filter your goals</h1>
                         <form>
-                            <label className="filter-label" htmlFor="filterBy">View your goals in: </label>
-                            <select id="filterBy" onChange={this.handleFilter}>
-                                <option value="">Everything</option>
+                            <label className="filter-label" htmlFor="filterByCat">By Category: </label>
+                            <select id="filterByCat" onChange={this.handleFilterCat}>
+                                <option value="">All</option>
                                 <option value="Life">Life</option>
                                 <option value="Love">Love</option>
                                 <option value="Happiness">Happiness</option>
                                 <option value="Health">Health</option>
                                 <option value="Work">Work</option>
                                 <option value="Other">Other</option>
+                            </select>
+                        </form>
+                        <form>
+                            <label className="filter-label" htmlFor="filterByDiff">By Difficulty: </label>
+                            <select id="filterByDiff" onChange={this.handleFilterDiff}>
+                                <option value="">All</option>
+                                <option value="Painless">Painless</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="Tough">Tough</option>
+                                <option value="Woah!">Woah!</option>
+                            </select>
+                        </form>
+                        <form>
+                            <label className="filter-label" htmlFor="filterByImp">By Importance: </label>
+                            <select id="filterByImp" onChange={this.handleFilterImp}>
+                                <option value="">All</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
                             </select>
                         </form>
                     </div>
