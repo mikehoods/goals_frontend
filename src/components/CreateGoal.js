@@ -80,8 +80,8 @@ export class CreateGoal extends Component {
         })
     }
     render() {
-        const { user } = this.props.auth0;
-        console.log(user)
+        // const { user } = this.props.auth0;
+        // console.log(user)
         const stepsLength = this.state.steps.length
         // const moveDown = <i className="material-icons" onClick={() => {this.moveStepDown(step, index)}}>arrow_drop_down</i>
         // const moveUp = <i className="material-icons">arrow_drop_up</i>
