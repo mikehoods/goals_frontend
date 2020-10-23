@@ -10,7 +10,7 @@ export class CreateGoal extends Component {
         importance: 'Low',
         progress: 0,
         complete: false,
-        steps: [],
+        steps: [""],
         currentStep: '',
         username: undefined
     }
