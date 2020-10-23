@@ -28,6 +28,8 @@ export class CreateGoal extends Component {
         await axios.post(`http://localhost:4000/goals`, {
             goal
         })
+        const newGoal = [this.state]
+        this.props.handler(...newGoal);
         this.setState({
             name: '',
             category: 'Life',
@@ -80,8 +82,6 @@ export class CreateGoal extends Component {
         })
     }
     render() {
-        // const { user } = this.props.auth0;
-        // console.log(user)
         const stepsLength = this.state.steps.length
         // const moveDown = <i className="material-icons" onClick={() => {this.moveStepDown(step, index)}}>arrow_drop_down</i>
         // const moveUp = <i className="material-icons">arrow_drop_up</i>

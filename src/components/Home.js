@@ -8,27 +8,65 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.handler = this.handler.bind(this)
+        this.addGoalhander = this.addGoalhander.bind(this)
     }
     state = {
         goals: [],
-        formToggle: <CreateGoal/>,
+        formToggle: "",
         completeGoals: '',
         filterByCat: "",
         filterByDiff: "",
         filterByImp: "",
-        filteredGoals: []
+        filteredGoals: [],
+        completionPercentage: 0,
+        displayGoals: ""
+    }
+    addGoalhander(newGoal) {
+        const currentDate = new Date();
+        const formatDate = (date) => {
+            date = new Date(date);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return `${month}/${day}/${year}`
+        }
+        const goal = {...newGoal, createdAt: formatDate(currentDate)};
+        console.log(goal)
+        const date = new Date()
+        console.log(date)
+        this.setState({
+            goals: [...this.state.goals, goal],
+            filteredGoals: [...this.state.goals, goal],
+        })
+        this.handleDisplayGoals();
     }
     handler() {
         this.setState({
-            formToggle: <CreateGoal/>
+            formToggle: <CreateGoal handler={this.addGoalhander}/>
         })
+        this.handleDisplayGoals();
     }
-    componentDidMount(){
+    componentWillMount(){
         axios.get('http://localhost:4000/goals')
             .then(res => {
                 this.setState({
                     goals: res.data.filter(g => g.username === this.props.auth0.user.name),
-                    filteredGoals: res.data.filter(g => g.username === this.props.auth0.user.name)
+                    filteredGoals: res.data.filter(g => g.username === this.props.auth0.user.name),
+                    formToggle: <CreateGoal 
+                        handler={this.addGoalhander} 
+                        />
+                })
+            }).then( res => {
+                const goals = this.state.goals
+                const completedGoalsArr = goals.filter(g => g.complete === true);
+                const completedGoals = completedGoalsArr.length;
+                console.log(completedGoals)
+                this.handleDisplayGoals();
+                const completionPercent = goals.length > 0 ?
+                    parseInt(((completedGoals / goals.length) * 100).toFixed(0))
+                    : 0;
+                this.setState({
+                    completionPercentage: completionPercent
                 })
             })
     }
@@ -36,10 +74,63 @@ class Home extends Component {
         axios.delete(`http://localhost:4000/goals/${id}/`)
             .then(()=> {
                 this.setState({
+                    filteredGoals: this.state.filteredGoals.filter(g => g._id !== id),
                     goals: this.state.goals.filter(g => g._id !== id),
-                    formToggle: <CreateGoal/>
+                    formToggle: <CreateGoal 
+                        handler={this.addGoalhander} 
+                        />
                 })
+                this.handleDisplayGoals();
+                this.calculateCompletion();
             })
+    }
+    handleDisplayGoals = () => {
+        const formatDate = (date) => {
+            date = new Date(date);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return `${month}/${day}/${year}`
+        }
+        const goals = this.state.goals;
+        const filteredGoals = this.state.filteredGoals;
+        const noGoalsFound = goals.length ?
+        <h1 className="noGoals">No goals found.</h1>
+        : <h1 className="noGoals">Try setting some new goals.</h1>;
+        const goalsList = filteredGoals.length > 0 ? (
+            filteredGoals.map((goal, index) => {
+                return (
+                    <div className="goal card" key={goal._id}>
+                        <div className="card-content">
+                            <div className="goal-header">
+                                <h3>{goal.name}</h3>
+                                <div className="goal-icons">
+                                    <i className="material-icons" onClick={()=> {this.handleComplete(goal, index)}}>done</i>
+                                    <i className="material-icons" onClick={()=> {this.handleEdit(goal)}}>edit</i>
+                                    <i className="material-icons" onClick={()=> {this.handleDelete(goal._id)}}>delete_forever</i>
+                                </div>
+                            </div>
+                            <h4 className="goal-createdAt">{formatDate(goal.createdAt)}</h4>
+                            <ol>
+                                {goal.steps.map((step, index) => {
+                                    return(
+                                        <li key={index}>{step}</li>
+                                    )
+                                })}
+                            </ol>
+                            <div className="goal-footer">
+                                <div className="goal-footer-item">Category: {goal.category}</div>
+                                <div className="goal-footer-item">Difficulty: {goal.difficulty}</div>
+                                <div className="goal-footer-item">Importance: {goal.importance}</div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            })
+        ) : noGoalsFound;
+        this.setState({
+            displayGoals: goalsList
+        })
     }
     handleFilterGoals = () => {
         const { goals, filterByCat, filterByDiff, filterByImp } = this.state
@@ -70,9 +161,20 @@ class Home extends Component {
         })
         this.handleFilterGoals()
     }
+    calculateCompletion() {
+        const goals = this.state.goals
+        const completedGoalsArr = goals.filter(g => g.complete === true);
+        const completedGoals = completedGoalsArr.length;
+        console.log(completedGoals)
+        const completionPercent = goals.length > 0 ?
+            parseInt(((completedGoals / goals.length) * 100).toFixed(0))
+            : 0;
+        this.setState({
+            completionPercentage: completionPercent
+        })
+    }
     handleComplete = (goal, index) => {
         const goals = this.state.goals
-        console.log(goal)
         goal.complete = !goal.complete
         goals[index] = goal
         axios.put(`http://localhost:4000/goals/${goals[index]._id}/`, 
@@ -83,60 +185,14 @@ class Home extends Component {
                     goals
                 })
             })
+        this.calculateCompletion();  
     }
     handleEdit = (goal) => {
         this.setState({
             formToggle: <EditGoal handler={this.handler} goal={goal}/>
         })
     }
-    render(){
-        const formatDate = (date) => {
-            date = new Date(date);
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-            const year = date.getFullYear();
-            return `${month}/${day}/${year}`
-        }
-        const goals = this.state.goals;
-        const filteredGoals = this.state.filteredGoals;
-        const completedGoals = goals.filter(g => g.complete === true);
-        const completionPercentage = goals.length > 0 ?
-            ((completedGoals.length / goals.length) * 100).toFixed(0)
-            : 0;
-        const noGoalsFound = goals.length ?
-        <h1 className="noGoals">No goals found.</h1>
-        : <h1 className="noGoals">Try setting some new goals.</h1>;
-        const goalsList = filteredGoals.length ? (
-            filteredGoals.map((goal, index) => {
-                return (
-                    <div className="goal card" key={goal._id}>
-                        <div className="card-content">
-                            <div className="goal-header">
-                                <h3>{goal.name}</h3>
-                                <div className="goal-icons">
-                                    <i className="material-icons" onClick={()=> {this.handleComplete(goal, index)}}>done</i>
-                                    <i className="material-icons" onClick={()=> {this.handleEdit(goal)}}>edit</i>
-                                    <i className="material-icons" onClick={()=> {this.handleDelete(goal._id)}}>delete_forever</i>
-                                </div>
-                            </div>
-                            <h4 className="goal-createdAt">{formatDate(goal.createdAt)}</h4>
-                            <ol>
-                                {goal.steps.map((step, index) => {
-                                    return(
-                                        <li key={index}>{step}</li>
-                                    )
-                                })}
-                            </ol>
-                            <div className="goal-footer">
-                                <div className="goal-footer-item">Category: {goal.category}</div>
-                                <div className="goal-footer-item">Difficulty: {goal.difficulty}</div>
-                                <div className="goal-footer-item">Importance: {goal.importance}</div>
-                            </div>
-                        </div>
-                    </div>
-                )
-            })
-        ) : noGoalsFound
+    render(){        
         return (
             <div className="home-container">
                 <div className="side-container">
@@ -178,7 +234,7 @@ class Home extends Component {
                         </form>
                     </div>
                     <div className="progress-container">
-                        <h2>You've completed <span className="totalCompletion"> {completionPercentage}% </span> of your goals so far!</h2>
+                        <h2>You've completed <span className="totalCompletion"> {this.state.completionPercentage}% </span> of your goals so far!</h2>
                     </div>
                 </div>
                 <div className="goals-container">
@@ -188,7 +244,7 @@ class Home extends Component {
                         <button>Complete</button>
                         <button>All</button>
                     </div> */}
-                    {goalsList}
+                    {this.state.displayGoals}
                 </div>
             </div>
             
