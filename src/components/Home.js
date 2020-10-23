@@ -71,7 +71,7 @@ class Home extends Component {
             })
     }
     handleDelete = (id) => {
-        axios.delete(`http://localhost:4000/goals/${id}/`)
+        axios.delete(`https://react-goal-tracker.herokuapp.com/goals/${id}/`)
             .then(()=> {
                 this.setState({
                     filteredGoals: this.state.filteredGoals.filter(g => g._id !== id),
@@ -177,7 +177,7 @@ class Home extends Component {
         const goals = this.state.goals
         goal.complete = !goal.complete
         goals[index] = goal
-        axios.put(`http://localhost:4000/goals/${goals[index]._id}/`, 
+        axios.put(`https://react-goal-tracker.herokuapp.com/goals/${goals[index]._id}/`, 
             goal
             )
             .then(()=> {

@@ -61,7 +61,7 @@ export class EditGoal extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:4000/goals/${this.state._id}/`,
+        axios.put(`https://react-goal-tracker.herokuapp.com/goals/${this.state._id}/`,
             this.state
         )
         this.props.handler();
