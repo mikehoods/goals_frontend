@@ -47,7 +47,7 @@ class Home extends Component {
         this.handleDisplayGoals();
     }
     componentWillMount(){
-        axios.get('http://localhost:4000/goals')
+        axios.get('https://react-goal-tracker.herokuapp.com/goals')
             .then(res => {
                 this.setState({
                     goals: res.data.filter(g => g.username === this.props.auth0.user.name),
