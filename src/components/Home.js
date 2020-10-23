@@ -142,6 +142,7 @@ class Home extends Component {
         this.setState({
             filteredGoals: filteredGoals
         })
+        this.handleDisplayGoals();
     }
     handleFilterCat = async (e) => {
         await this.setState({
